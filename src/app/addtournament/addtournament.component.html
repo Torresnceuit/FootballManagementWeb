@@ -1,0 +1,28 @@
+<div style="text-align:center">
+  <span style="color:blue"> New Tournament {{leagueId}}</span>
+
+</div>
+
+<div class="col-md-6 offset-md-3">
+  <div style="text-align:center">
+    <img class="image" id="logo" [src]="url" alt="tournament logo"/>
+    <form>
+    <label for="Image">Logo</label>
+    <input type="file"(change)="readUrl($event)" accept="image/*" class="form-control" id="_uploadFile" #tourLogo >
+
+    </form>
+  </div>
+  <div class="form-group">
+  <label for="tourName">Name</label>
+  <input type="text"  class="form-control" id="_tourName" #leagueName>
+  </div>
+  <div class="form-group">
+  <label for="NoOfTeam">Number of Team</label>
+  <input type="number" min="0" class="form-control" id="_tourNoOfTeam" #_TourNoOfTeam>
+  </div>
+
+  <div>
+
+    <button (click)=save() class="btn btn-primary"> Save Tournament </button>
+  </div>
+</div>

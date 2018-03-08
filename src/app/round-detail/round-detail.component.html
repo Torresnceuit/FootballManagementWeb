@@ -1,0 +1,21 @@
+<div class="container">
+  <div style="text-align:center">
+    <h3><span style="color:blue"> Match Day </span></h3>
+  </div>
+  <table class="col-md-8 offset-md-2">
+
+    <tr *ngFor="let match of matches">
+      <td><span style="color:green" class="card" *ngIf="match.HomeId;else elseBlock">{{match.homeTeam.Name}}</span></td>
+      <ng-template #elseBlock><span style="color:green" class="card">GOOD BYE</span></ng-template>
+      <ng-template #elseBlockScore>-</ng-template>
+      <td><span class="badge" *ngIf="match.HomeId && match.AwayId;else elseBlockScore">{{match.HomeScore}} </span></td>
+      <td><span class="badge" *ngIf="match.AwayId && match.HomeId;else elseBlockScore">{{match.AwayScore}}</span></td>
+      <td><span style="color:green" class="card" *ngIf="match.AwayId;else elseBlock">{{match.awayTeam.Name}}</span></td>
+    </tr>
+
+  </table>
+  <div class="toolbars">
+    <button class="btn btn-danger" (click)="goBack()">Back</button>
+    <button class="btn btn-primary" [disabled]="!isValid" (click)="proceed()">Proceed </button>
+  </div>
+</div>

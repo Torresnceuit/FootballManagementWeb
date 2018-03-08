@@ -1,0 +1,33 @@
+<div class="container">
+  <div style="text-align:center">
+    <span>Congratulations, you have successfully logged in!!</span>
+    <br />
+    <a (click)="logout()" href="#">Click Here to logout</a>
+    <h3><span style="color:blue"> Select the league </span></h3>
+    <button (click)=openAdd() class="btn btn-primary">Add new league </button>
+  </div>
+
+    <ul class="leagues row justify-content-center" >
+      <li *ngFor="let league of leagues">
+        <a routerLink="/leaguedetail/{{league.Id}}">
+         <div>
+           <!--[style.background-image]="'url(' + player.Avatar + ')'"
+        [style.background-size] = "cover"
+        [style.background-position] = "center" -->
+          <!--a routerLink="/detail/{{player.Id}}"-->
+            <span class="logo"
+            [style.background-image]="'url(' + league.Logo + ')'"
+            [style.background-size] = "cover"
+            [style.background-position] = "center">
+              <!--img src = "{{league.Logo}}"-->
+            </span>
+            <span style="color:green" class="text">{{league.Name}}</span>
+
+          <!--/a-->
+        </div>
+      </a>
+      <button class="delete" title="delete league"
+      (click)="delete(league)">X</button>
+      </li>
+    </ul>
+</div>

@@ -1,0 +1,43 @@
+<div *ngIf="league">
+
+
+  <h2 style="text-align:center">{{ league.Name}} League Details</h2>
+  <div class="leagues">
+
+      <img class="image" id="logo" [src]="league.Logo" alt="league logo"/>
+      <br/>
+
+      <!--span style="color:red">Id: </span>{{player.Id}}-->
+    <br/>
+      <label>Name
+        <input class="form-control" [(ngModel)]="league.Name" placeholder="name"/>
+      </label>
+    <br/>
+  </div>
+
+    <ul class="tours">
+      <li *ngFor="let tour of tours">
+        <a routerLink="/tourdetail/{{tour.Id}}">
+          <span class="logo"
+          [style.background-image]="'url(' + tour.Logo + ')'"
+          [style.background-size] = "cover"
+          [style.background-position] = "center">
+            <!--img src = "{{league.Logo}}"-->
+          </span>
+          <span style="color:green" class="text">{{tour.Name}}</span>
+        </a>
+        <button class="delete" title="delete league"
+        (click)="delete(tour)">X</button>
+      </li>
+    </ul>
+    <br/>
+
+  <br/>
+
+  <div class="toolbars">
+  <button class="btn btn-danger" (click)="goBack()">Back</button>
+  <button class="btn btn-primary" (click)="save()">Save </button>
+
+  <button (click)=openAdd() class="btn btn-primary">Add New Tournament </button>
+  </div>
+</div>

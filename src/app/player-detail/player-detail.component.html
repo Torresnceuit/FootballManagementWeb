@@ -1,0 +1,35 @@
+<div *ngIf="player">
+
+
+  <h2 style="text-align:center">{{ player.Name | uppercase }} DETAILS</h2>
+  <div class="avatar">
+    <img class="image" id="avatar" [src]="player.Avatar" alt="player image"/>
+  </div>
+  <ul>
+    <label>Name
+      <input class="form-control" [(ngModel)]="player.Name" placeholder="name"/>
+    </label>
+    <br/>
+    <label>Age
+      <input class="form-control" [(ngModel)]="player.Age" placeholder="age"/>
+    </label>
+    <br/>
+    <label>Positions
+      <input class="form-control" id = "_playerPos" placeholder="positions"/>
+    </label>
+    <br/>
+    <label>Number
+      <input class="form-control" [(ngModel)]="player.Number" placeholder="number"/>
+    </label>
+    <br/>
+    <label>Nationality
+      <input class="form-control" [(ngModel)]="player.Nationality" placeholder="Nationality"/>
+    </label>
+    <br/>
+  </ul>
+  <br/>
+  <div class="toolbars">
+    <button class="btn btn-danger" (click)="goBack()">Back</button>
+    <button class="btn btn-primary"(click)="save()">Save </button>
+  </div>
+</div>

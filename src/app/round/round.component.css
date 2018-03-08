@@ -1,0 +1,88 @@
+/* HeroesComponent's private CSS styles */
+.selected {
+  background-color: #CFD8DC !important;
+  color: black;
+}
+.rounds {
+  float: left;
+  margin: 0 0 2em 0;
+  list-style-type: none;
+  padding: 2em 5em;
+
+  width: 100%;
+
+}
+.rounds > li {
+  cursor: pointer;
+  float: left;
+  position: relative;
+  left: 0;
+  background-color: #F2D3;
+  /*background-image: url("../../assets/background.jpg");*/
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  align-content: center;
+  margin: 0.5em;
+  padding: 5em 1em 0em;
+  width: 150px;
+  height: 100px;
+  border-radius: 4px;
+}
+.rounds > li.selected:hover {
+  background-color: #BBD8DC !important;
+  color: red;
+}
+.rounds > li:hover {
+  color: #607D8B;
+  background-color: #DDD;
+  left: .1em;
+}
+.rounds .text {
+  position: relative;
+
+  font-size: 16px;
+}
+.rounds .badge {
+  display: inline-block;
+  font-size: small;
+  color: white;
+  padding: 0.3em 0.2em 0.2em 0.2em;
+  background-color: #607D8B;
+  line-height: 1em;
+  position: relative;
+  left: -1px;
+  top: -4px;
+  height: 1.8em;
+
+
+  margin-right: 0em;
+  margin-left: 0.1em;
+
+  border-radius: 4px;
+}
+.rounds .card{
+  display: inline-block;
+  font-size: small;
+  color: black;
+  padding: 0.3em 0.2em 0.2em 0.2em;
+  background-color: #ffff;
+  line-height: 1em;
+  position: relative;
+  left: -1px;
+  top: -4px;
+  height: 1.8em;
+
+
+  margin-right: 0em;
+  margin-left: 0.1em;
+
+  border-radius: 4px;
+}
+
+.fixture {
+  position: relative;
+  border-radius: 4px;
+  text-align: center;
+  overflow: hidden;
+}

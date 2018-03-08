@@ -1,0 +1,35 @@
+<div class="container">
+  <div style="text-align:center">
+    <h3><span style="color:blue"> Table </span></h3>
+  </div>
+  <div>
+    <table class="col-md-8 offset-md-2">
+      <tr>
+        <th>Club</th>
+        <th>Games</th>
+        <th>Wons</th>
+        <th>Draws</th>
+        <th>Losts</th>
+        <th>GF</th>
+        <th>GC</th>
+        <th>Points</th>
+      </tr>
+
+            <tr *ngFor="let rank of ranks" >
+            <td><span style="color:green">{{rank.Team.Name}}</span></td>
+            <td><span style="color:green" >{{rank.Games}}</span></td>
+            <td><span style="color:green" >{{rank.Won}}</span></td>
+            <td><span style="color:green" >{{rank.Draw}}</span></td>
+            <td><span style="color:green" >{{rank.Lost}}</span></td>
+            <td><span style="color:green" >{{rank.Goals}}</span></td>
+            <td><span style="color:green" >{{rank.Concede}}</span></td>
+            <td><span style="color:green" >{{rank.Points}}</span></td>
+            <!--span class="card">{{player['Positions'][0]}}</span-->
+          </tr>
+
+  </table>
+  </div>
+  <div class="toolbars">
+    <button class="btn btn-danger" (click)="goBack()">Back</button>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="container">
+  <div style="text-align:center">
+    <h3><span style="color:blue"> Fixtures </span></h3>
+  </div>
+
+    <ul class="rounds row justify-content-center" >
+      <li *ngFor="let round of rounds">
+
+        <div>
+          <a routerLink="/rounddetail/{{round.Id}}">
+            <span style="color:green" class="card">{{round.Name}}</span>
+            <!--span class="card">{{player['Positions'][0]}}</span-->
+
+          </a>
+        </div>
+      </li>
+    </ul>
+</div>

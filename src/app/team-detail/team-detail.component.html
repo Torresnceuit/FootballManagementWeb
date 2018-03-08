@@ -1,0 +1,20 @@
+<div *ngIf="team">
+
+
+  <h2 style="text-align: center">{{ team.Name | uppercase }} DETAILS</h2>
+  <div class="teams">
+    <img class="image" id="logo" [src]="team.Logo" alt="team logo"/>
+    <br/>
+    <label>Name
+      <input class="form-control" [(ngModel)]="team.Name" placeholder="name"/>
+    </label>
+    <br/>
+  </div>
+  <app-team-players  [teamId]="id"></app-team-players>
+  <div class="toolbars">
+    <button class="btn btn-danger" (click)="goBack()">go back</button>
+    <button class="btn btn-primary" (click)="save()">save </button>
+    <button (click)=logout() class="btn btn-primary">Log out </button>
+  </div>
+
+</div>

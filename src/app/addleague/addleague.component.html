@@ -1,0 +1,25 @@
+<div style="text-align:center">
+  <span style="color:blue"> New League </span>
+
+</div>
+
+<div class="col-md-6 offset-md-3">
+  <div style="text-align:center">
+    <img class="image" id="logo" [src]="url" alt="league logo"/>
+    <form>
+    <label for="Image">Logo</label>
+    <input type="file"(change)="readUrl($event)" accept="image/*" class="form-control" id="_uploadFile" #leagueLogo >
+
+    </form>
+  </div>
+  <div class="form-group">
+  <label for="leagueName">Name</label>
+  <input type="text"  class="form-control" id="_leagueName" #leagueName>
+  </div>
+
+
+  <div>
+
+    <button (click)=save() class="btn btn-primary"> Save League </button>
+  </div>
+</div>

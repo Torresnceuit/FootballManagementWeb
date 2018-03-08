@@ -1,0 +1,57 @@
+<div style="text-align:center">
+  <span style="color:blue"> New Player </span>
+
+</div>
+
+<div class="col-md-6 offset-md-3">
+  <div style="text-align:center">
+    <img class="image" id="avatar" [src]="url" alt="player image"/>
+    <form>
+    <label for="Image">Image</label>
+    <input type="file"(change)="readUrl($event)" accept="image/*" class="form-control" id="_uploadFile" #playerImage >
+
+    </form>
+  </div>
+  <div class="form-group">
+  <label for="playerName">Name</label>
+  <input type="text"  class="form-control" id="_playerName" #playerName>
+  </div>
+  <div class="form-group">
+  <label for="Age">Age</label>
+  <input type="number" min="15"  class="form-control" id="_playerAge" #playerAge>
+  </div>
+  <div class="form-group">
+  <label for="Positions">Positions</label>
+  <br/>
+
+  <div *ngFor="let position of positions">
+    <label>
+      <input type="checkbox"  name="positions"
+                              value="{{position}}"
+
+                              (change)="updateCheckedPositions(position, $event)"/>
+                              {{position}}
+    </label>
+  </div>
+
+
+  </div>
+  <div class="form-group">
+  <label for="Number">Number</label>
+  <input type="number" min="0"  class="form-control" id="_playerNum" #playerNum>
+  </div>
+  <div class="form-group">
+  <label for="Nationality">Nationality</label>
+  <input type="text"  class="form-control" id="_playerNation" #playerNation>
+  </div>
+  <div class="form-group">
+  <label for="UserID">UserID</label>
+  <input type="text"  class="form-control" id="_playerUser" #playerUser>
+  </div>
+
+
+  <div>
+
+    <button (click)=save() class="btn btn-primary"> Save Player </button>
+  </div>
+</div>

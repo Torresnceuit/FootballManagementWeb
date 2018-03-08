@@ -1,0 +1,15 @@
+body {
+  background-color: #9c5d;
+}
+
+head {
+  background-color: #00ab;
+}
+
+.toolbars {
+  padding: 1em;
+  color: white;
+  background-color: black;
+  clear: left;
+  text-align: center;
+}
