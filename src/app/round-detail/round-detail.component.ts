@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { MatchService } from '../services/match.service';
 import { RoundService } from '../services/round.service';
@@ -15,7 +15,7 @@ import { Round } from '../round';
 })
 export class RoundDetailComponent implements OnInit {
   matches: Match[];
-  round: any={};
+  round: Round = new Round();
   Id: any;
   isValid = true;
   constructor(
@@ -31,19 +31,25 @@ export class RoundDetailComponent implements OnInit {
     this.Id = this.route.snapshot.paramMap.get('Id'); // get round Id from route
     this.getRound(this.Id);
     this.getAllMatchesByRound(this.Id); // get all matches of round with Id
-    // If round is done, deactive proceed button
-    if(this.round.IsDone){ 
-      this.isValid = false;
-    }else{
-      this.isValid = true;
-    }
+
+    this.isValid = false
+    
 
   }
+
+  ngAfterViewInit() {
+    
+}
 
   //Get round detail
   getRound(id:string){
     this.roundService.getRound(id)
-    .subscribe(round=> this.round = round); // assign round
+      .subscribe(round=> {
+        this.round = round; // assign round
+        // If round is done, deactive proceed button
+        this.isValid = !this.round.IsDone;
+      }); 
+    
   }
 
   getAllMatches(){
