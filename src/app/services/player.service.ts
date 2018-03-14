@@ -26,6 +26,7 @@ export class PlayerService {
     private logService: LogService
   ) { }
 
+  /** Get all players, return a list of players */
   getAllPlayers (): Observable<Player[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -36,13 +37,10 @@ export class PlayerService {
     this.log(this.obj['access_token']);
 
     return this.http.get<Player[]>(this.reqUrl + "/api/players/getall/",this.httpOptions)
-      .pipe<Player[]>(
-        tap(players => this.log(`fetched players`)),
-        catchError(this.handleError('getAllPlayers', []))
-      );
+    .map((res: any)=> res);
   }
 
-  /* GET all Players by Team Id*/
+  /** GET all Players by Team Id, return a list of Players*/
   getAllPlayersByTeam (TeamId:string): Observable<Player[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -53,22 +51,17 @@ export class PlayerService {
     this.log(this.obj['access_token']);
     const url = `${this.reqUrl+ "/api/players/getAllByTeam"}/${TeamId}`;
     return this.http.get<Player[]>(url,this.httpOptions)
-      .pipe(
-        tap(players => this.log(`fetched players`)),
-        catchError(this.handleError('getAllPlayersByTeam', []))
-      );
+    .map((res: any)=> res);
   }
 
   /** GET a player by id. Will 404 if id not found */
   getPlayer(id: string): Observable<Player> {
 
   const url = `${this.reqUrl+ "/api/players/getbyid"}/${id}`;
-  return this.http.get<Player>(url,this.httpOptions).pipe(
-    tap(_ => this.log(`fetched player id=${id}`)),
-    catchError(this.handleError<Player>(`getPlayer id=${id}`))
-    );
+  return this.http.get<Player>(url,this.httpOptions)
+    .map((res: any)=> res);
   }
-  /** POST: update the hero on the server */
+  /** POST: update the player on the server */
   updatePlayer (player: Player): Observable<any> {
     return this.http.post<Player>(this.reqUrl + "/api/players/update/", player, this.httpOptions).pipe(
       tap(_ => this.log(`updated player id=${player.Id}`)),

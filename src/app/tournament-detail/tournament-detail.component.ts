@@ -5,7 +5,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { TeamService } from '../services/team.service';
 import { TournamentService } from '../services/tournament.service';
-const BYE:number = -1;
+const BYE:number = -1; 
 
 @Component({
   selector: 'app-tournament-detail',
@@ -27,46 +27,49 @@ export class TournamentDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getTour();
+    this.getTour(); // get tour on create
   }
 
   getTour(): void {
-  this.id = this.route.snapshot.paramMap.get('Id');
+  this.id = this.route.snapshot.paramMap.get('Id'); // get tournament Id from route
     this.tournamentService.getTour(this.id)
-    .subscribe(tour => this.tour = tour);
-    this.teamService.getAllTeamsByTour(this.id).subscribe(teams => this.teams = teams);
+    .subscribe(tour => this.tour = tour); // subscribe to the response
+    this.teamService.getAllTeamsByTour(this.id).subscribe(teams => this.teams = teams); // get all teams
   }
+
 
 
   openAdd(){
-    this.router.navigate(['./tourdetail',this.id,'addteam']);
+    this.router.navigate(['./tourdetail',this.id,'addteam']); // navigate to add team page
   }
 
   goBack(): void {
-    this.location.back();
+    this.location.back(); // return to last location
   }
-  /* Save tournament*/
+  //Save tournament
   save(): void {
 
    this.tournamentService.updateTour(this.tour)
      .subscribe(() => this.goBack());
    }
-   /** Delete a team **/
+   //Delete a team
    delete(team:Team){
      this.teams = this.teams.filter(h => h !== team);
        this.teamService.deleteTeam(team).subscribe();
    }
 
-   /*Generate the fixture for whole season*/
+   //Generate the fixture for whole season
    generateFixture(){
      this.tournamentService.generateFixture(this.id)
      .subscribe((ok)=> window.location.reload());
 
    }
 
-   /*Show the table of tournament*/
+   //Generate rank and show table
    openRank(){
-     this.tournamentService.generateRank(this.id).subscribe(Ok=> this.router.navigate(['./tourdetail',this.id,'rank']));
+     this.tournamentService.generateRank(this.id)
+     .subscribe(Ok=> this.router
+      .navigate(['./tourdetail',this.id,'rank'])); // open rank page
 
    }
 

@@ -20,6 +20,7 @@ export class TeamService {
     private logService: LogService
   ) { }
 
+  /** Get all teams, return a list of teams */
   getAllTeams (): Observable<Team[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -30,12 +31,9 @@ export class TeamService {
     this.log(this.obj['access_token']);
 
     return this.http.get<Team[]>(this.reqUrl + "/api/teams/getall/",this.httpOptions)
-      .pipe(
-        tap(tournments => this.log(`fetched teams`)),
-        catchError(this.handleError('getAllTeams', []))
-      );
+    .map((res: any)=> res);
   }
-  /* GET all Tournament by League Id*/
+  /** GET all team by Tournament Id*/
   getAllTeamsByTour (TourId:string): Observable<Team[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -46,13 +44,10 @@ export class TeamService {
     this.log(this.obj['access_token']);
     const url = `${this.reqUrl+ "/api/teams/getAllByTour"}/${TourId}`;
     return this.http.get<Team[]>(url,this.httpOptions)
-      .pipe(
-        tap(teams => this.log(`fetched teams`)),
-        catchError(this.handleError('getAllTeamsByTour', []))
-      );
+    .map((res: any)=> res);
   }
 
-  /** GET a player by id. Will 404 if id not found */
+  /** GET a team by id. Will 404 if id not found */
   getTeam(id: string): Observable<Team> {
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -68,13 +63,11 @@ export class TeamService {
     };
     this.log(this.obj['access_token']);
   const url = `${this.reqUrl+ "/api/teams/getbyid"}/${id}`;
-  return this.http.get<Team>(url,this.httpOptions).pipe(
-    tap(_ => this.log(`fetched team id=${id}`)),
-    catchError(this.handleError<Team>(`getTeam id=${id}`))
-    );
+  return this.http.get<Team>(url,this.httpOptions)
+  .map((res: any)=> res);
   }
 
-  /** POST: update the hero on the server */
+  /** POST: update the team on the server */
   updateTeam (team: Team): Observable<any> {
     return this.http.post<Team>(this.reqUrl + "/api/teams/update/", team, this.httpOptions).pipe(
       tap(_ => this.log(`updated team id=${team.Id}`)),
@@ -87,12 +80,10 @@ export class TeamService {
     const id = typeof team === 'number' ? team : team.Id;
     const url = `${this.reqUrl+ "/api/teams/delete"}/${id}`;
 
-    return this.http.delete<Team>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted team id=${id}`)),
-      catchError(this.handleError<Team>('deleteTeam'))
-    );
+    return this.http.delete<Team>(url, this.httpOptions)
+      .map((res: any)=> res);
   }
-  /** Log a PlayerService message with the LogService */
+  /** Log a Teamservice message with the LogService */
   private log(message: string) {
     this.logService.add('TeamService: ' + message);
   }

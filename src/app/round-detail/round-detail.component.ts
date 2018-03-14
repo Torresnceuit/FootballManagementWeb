@@ -15,7 +15,7 @@ import { Round } from '../round';
 })
 export class RoundDetailComponent implements OnInit {
   matches: Match[];
-  round: Round={};
+  round: any={};
   Id: any;
   isValid = true;
   constructor(
@@ -28,25 +28,38 @@ export class RoundDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.Id = this.route.snapshot.paramMap.get('Id');
-    this.round.Id = this.Id;
-    this.getAllMatchesByRound(this.Id);
+    this.Id = this.route.snapshot.paramMap.get('Id'); // get round Id from route
+    this.getRound(this.Id);
+    this.getAllMatchesByRound(this.Id); // get all matches of round with Id
+    // If round is done, deactive proceed button
+    if(this.round.IsDone){ 
+      this.isValid = false;
+    }else{
+      this.isValid = true;
+    }
 
+  }
+
+  //Get round detail
+  getRound(id:string){
+    this.roundService.getRound(id)
+    .subscribe(round=> this.round = round); // assign round
   }
 
   getAllMatches(){
-    this.matchService.getAllMatches().subscribe(matches => this.matches = matches);
+    this.matchService.getAllMatches()
+    .subscribe(matches => this.matches = matches); // assign matches from response to list of matches
 
   }
 
-  /* Get all the matches of round by roundId */
+  //Get all the matches of round by roundId
   getAllMatchesByRound(id:string){
     this.matchService.getAllMatchesByRound(id)
     .subscribe(matches => this.matches = matches);
 
   }
 
-  /* Simulate the matches with random results*/
+  //Simulate the matches with random results
   proceed(){
       for(var i = 0;i<this.matches.length;i++){
         var maxNumHome = this.getRandom(0,10);
@@ -58,12 +71,12 @@ export class RoundDetailComponent implements OnInit {
         }
 
       }
-      /* inform round is done*/
+      // inform round is done
       this.round.IsDone = true;
 
 
       this.roundService.updateRound(this.round).subscribe();
-      this.matchService.proceedMatches(this.matches).subscribe(Ok => this.isValid = this.matches[0].Round.IsDone);
+      this.matchService.proceedMatches(this.matches).subscribe(Ok => this.isValid = false);
 
   }
 

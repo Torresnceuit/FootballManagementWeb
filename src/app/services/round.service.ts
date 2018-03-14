@@ -20,6 +20,7 @@ export class RoundService {
     private logService: LogService
   ) { }
 
+  /** Get all rounds, return a list of rounds */
   getAllRounds (): Observable<Round[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -30,12 +31,9 @@ export class RoundService {
     this.log(this.obj['access_token']);
 
     return this.http.get<Round[]>(this.reqUrl + "/api/rounds/getall/",this.httpOptions)
-      .pipe<Round[]>(
-        tap(rounds => this.log(`fetched rounds`)),
-        catchError(this.handleError('getAllRounds', []))
-      );
+    .map((res: any)=> res);
   }
-  /* GET all Tournament by League Id*/
+  /** GET all rounds by Tournament Id, return a list of rounds*/
   getAllRoundsByTour (tourId:string): Observable<Round[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -46,13 +44,10 @@ export class RoundService {
     this.log(this.obj['access_token']);
     const url = `${this.reqUrl+ "/api/rounds/getAllByTour"}/${tourId}`;
     return this.http.get<Round[]>(url,this.httpOptions)
-      .pipe<Round[]>(
-        tap(rounds => this.log(`fetched rounds`)),
-        catchError(this.handleError('getAllRoundsByTour', []))
-      );
+    .map((res: any)=> res);
   }
 
-  /** GET a player by id. Will 404 if id not found */
+  /** GET a round by id. Will 404 if id not found */
   getRound(id: string): Observable<Round> {
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -62,13 +57,11 @@ export class RoundService {
     };
     this.log(this.obj['access_token']);
   const url = `${this.reqUrl+ "/api/rounds/getbyid"}/${id}`;
-  return this.http.get<Round>(url,this.httpOptions).pipe(
-    tap(_ => this.log(`fetched round id=${id}`)),
-    catchError(this.handleError<Round>(`getRound id=${id}`))
-    );
+  return this.http.get<Round>(url,this.httpOptions)
+    .map((res: any)=> res);
   }
 
-  /** POST: update the tournamnet on the server */
+  /** POST: update the round on the server */
   updateRound (round: Round): Observable<any> {
     return this.http.post<Round>(this.reqUrl + "/api/rounds/update/", round, this.httpOptions).pipe(
       tap(_ => this.log(`updated round id=${round.Id}`)),
@@ -76,7 +69,7 @@ export class RoundService {
     );
   }
 
-  /** Log a PlayerService message with the LogService */
+  /** Log a RoundService message with the LogService */
   private log(message: string) {
     this.logService.add('RoundService: ' + message);
   }

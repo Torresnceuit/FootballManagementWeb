@@ -20,6 +20,7 @@ export class RankService {
     private logService: LogService
   ) { }
 
+  /** Get all ranks, return a list of ranks */
   getAllRanks (): Observable<Rank[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -30,12 +31,9 @@ export class RankService {
     this.log(this.obj['access_token']);
 
     return this.http.get<Rank[]>(this.reqUrl + "/api/ranks/getall/",this.httpOptions)
-      .pipe<Rank[]>(
-        tap(matches => this.log(`fetched ranks`)),
-        catchError(this.handleError('getAllRanks', []))
-      );
+    .map((res: any)=> res);
   }
-  /* GET all Tournament by League Id*/
+  /** GET all rank by Tournament Id, return a list of ranks*/
   getAllRanksByTour (tourId:string): Observable<Rank[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -46,13 +44,10 @@ export class RankService {
     this.log(this.obj['access_token']);
     const url = `${this.reqUrl+ "/api/ranks/getAllByTour"}/${tourId}`;
     return this.http.get<Rank[]>(url,this.httpOptions)
-      .pipe<Rank[]>(
-        tap(matches => this.log(`fetched ranks`)),
-        catchError(this.handleError('getAllRanksByTour', []))
-      );
+    .map((res: any)=> res);
   }
 
-  /** GET a player by id. Will 404 if id not found */
+  /** GET a rank by id. Will 404 if id not found */
   getRank(id: string): Observable<Rank> {
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -62,10 +57,8 @@ export class RankService {
     };
     this.log(this.obj['access_token']);
   const url = `${this.reqUrl+ "/api/ranks/getbyid"}/${id}`;
-  return this.http.get<Rank>(url,this.httpOptions).pipe(
-    tap(_ => this.log(`fetched rank id=${id}`)),
-    catchError(this.handleError<Rank>(`getRank id=${id}`))
-    );
+  return this.http.get<Rank>(url,this.httpOptions)
+  .map((res: any)=> res);
   }
 
   /** POST: update the rank on the server */
@@ -88,7 +81,7 @@ export class RankService {
 
 
 
-  /** Log a PlayerService message with the LogService */
+  /** Log a RankService message with the LogService */
   private log(message: string) {
     this.logService.add('RankService: ' + message);
   }

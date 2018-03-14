@@ -20,6 +20,7 @@ export class MatchService {
     private logService: LogService
   ) { }
 
+  /** Get all matches, return a list of matches */
   getAllMatches (): Observable<Match[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -29,13 +30,10 @@ export class MatchService {
     };
     this.log(this.obj['access_token']);
 
-    return this.http.get<Match[]>(this.reqUrl + "/api/matches/getall/",this.httpOptions)
-      .pipe<Match[]>(
-        tap(matches => this.log(`fetched matches`)),
-        catchError(this.handleError('getAllMatches', []))
-      );
+    return this.http.get(this.reqUrl + "/api/matches/getall/",this.httpOptions)
+    .map((res: any)=> res);
   }
-  /* GET all Tournament by League Id*/
+  /** GET all matches by Round Id, return a list of matches*/
   getAllMatchesByRound (roundId:string): Observable<Match[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -46,13 +44,10 @@ export class MatchService {
     this.log(this.obj['access_token']);
     const url = `${this.reqUrl+ "/api/matches/getAllByRound"}/${roundId}`;
     return this.http.get<Match[]>(url,this.httpOptions)
-      .pipe<Match[]>(
-        tap(matches => this.log(`fetched matches`)),
-        catchError(this.handleError('getAllMatchesByRound', []))
-      );
+    .map((res: any)=> res);
   }
 
-  /** GET a player by id. Will 404 if id not found */
+  /** GET a match by id. Will 404 if id not found */
   getMatch(id: string): Observable<Match> {
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -62,13 +57,11 @@ export class MatchService {
     };
     this.log(this.obj['access_token']);
   const url = `${this.reqUrl+ "/api/matches/getbyid"}/${id}`;
-  return this.http.get<Match>(url,this.httpOptions).pipe(
-    tap(_ => this.log(`fetched match id=${id}`)),
-    catchError(this.handleError<Match>(`getMatch id=${id}`))
-    );
+  return this.http.get<Match>(url,this.httpOptions)
+  .map((res: any)=> res);
   }
 
-  /** POST: update the tournamnet on the server */
+  /** POST: update the match on the server */
   updateMatch (match: Match): Observable<any> {
     return this.http.post<Match>(this.reqUrl + "/api/matches/update/", match, this.httpOptions).pipe(
       tap(_ => this.log(`updated match id=${match.Id}`)),
@@ -76,7 +69,7 @@ export class MatchService {
     );
   }
 
-  /** POST: update the match results **/
+  /** POST: update the matches results on server**/
   proceedMatches(matches: Match[]){
     const url = `${this.reqUrl+ "/api/matches/updateall"}`;
     return this.http.post(url,matches, this.httpOptions).pipe(
@@ -85,7 +78,7 @@ export class MatchService {
     );
   }
 
-  /** Log a PlayerService message with the LogService */
+  /** Log a MatchService message with the LogService */
   private log(message: string) {
     this.logService.add('MatchService: ' + message);
   }

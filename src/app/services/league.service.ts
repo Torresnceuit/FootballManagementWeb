@@ -20,6 +20,8 @@ export class LeagueService {
     private logService: LogService
   ) { }
 
+
+  /** GET: Return a list of leagues */
   getAllLeagues (): Observable<League[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -30,13 +32,11 @@ export class LeagueService {
     this.log(this.obj['access_token']);
 
     return this.http.get<League[]>(this.reqUrl + "/api/leagues/getall/",this.httpOptions)
-      .pipe<League[]>(
-        tap(leagues => this.log(`fetched leagues`)),
-        catchError(this.handleError('getAllLeagues', []))
-      );
+      .map((res: any)=>res);
+    
   }
 
-  /** GET a player by id. Will 404 if id not found */
+  /** GET a league by id. Will 404 if id not found */
   getLeague(id: string): Observable<League> {
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -46,13 +46,12 @@ export class LeagueService {
     };
     this.log(this.obj['access_token']);
   const url = `${this.reqUrl+ "/api/leagues/getbyid"}/${id}`;
-  return this.http.get<League>(url,this.httpOptions).pipe(
-    tap(_ => this.log(`fetched league id=${id}`)),
-    catchError(this.handleError<League>(`getLeague id=${id}`))
-    );
+  return this.http.get<League>(url,this.httpOptions)
+    .map((res:any)=> res);
+  
   }
 
-  /** POST: update the hero on the server */
+  /** POST: update the league on the server */
   updateLeague (league: League): Observable<any> {
     return this.http.post<League>(this.reqUrl + "/api/leagues/update/", league, this.httpOptions).pipe(
       tap(_ => this.log(`updated league id=${league.Id}`)),
@@ -65,13 +64,12 @@ export class LeagueService {
     const id = typeof league === 'number' ? league : league.Id;
     const url = `${this.reqUrl+ "/api/leagues/delete"}/${id}`;
 
-    return this.http.delete<League>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted league id=${id}`)),
-      catchError(this.handleError<League>('deleteLeague'))
-    );
+    return this.http.delete<League>(url, this.httpOptions)
+      .map((res: any)=> res);
+    
   }
 
-  /** Log a PlayerService message with the LogService */
+  /** Log a LeagueService message with the LogService */
   private log(message: string) {
     this.logService.add('LeagueService: ' + message);
   }

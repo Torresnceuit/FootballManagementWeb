@@ -19,6 +19,7 @@ export class TournamentService {
     private logService: LogService
   ) { }
 
+  /** Get all tournaments, return a list of tournaments */
   getAllTours (): Observable<Tournament[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -29,12 +30,9 @@ export class TournamentService {
     this.log(this.obj['access_token']);
 
     return this.http.get<Tournament[]>(this.reqUrl + "/api/tournaments/getall/",this.httpOptions)
-      .pipe<Tournament[]>(
-        tap(tournments => this.log(`fetched tournments`)),
-        catchError(this.handleError('getAllTours', []))
-      );
+    .map((res: any)=> res);
   }
-  /* GET all Tournament by League Id*/
+  /** GET all Tournaments by League Id, return a list of Tournaments*/
   getAllToursByLeague (leagueId:string): Observable<Tournament[]>{
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -45,13 +43,10 @@ export class TournamentService {
     this.log(this.obj['access_token']);
     const url = `${this.reqUrl+ "/api/tournaments/getAllByLeague"}/${leagueId}`;
     return this.http.get<Tournament[]>(url,this.httpOptions)
-      .pipe<Tournament[]>(
-        tap(tournments => this.log(`fetched tournments`)),
-        catchError(this.handleError('getAllToursByLeague', []))
-      );
+    .map((res: any)=> res);
   }
 
-  /** GET a player by id. Will 404 if id not found */
+  /** GET a tournament by id. Will 404 if id not found */
   getTour(id: string): Observable<Tournament> {
     this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
@@ -61,10 +56,8 @@ export class TournamentService {
     };
     this.log(this.obj['access_token']);
   const url = `${this.reqUrl+ "/api/tournaments/getbyid"}/${id}`;
-  return this.http.get<Tournament>(url,this.httpOptions).pipe(
-    tap(_ => this.log(`fetched tournament id=${id}`)),
-    catchError(this.handleError<Tournament>(`getTour id=${id}`))
-    );
+  return this.http.get<Tournament>(url,this.httpOptions)
+  .map((res: any)=> res);
   }
 
   /** POST: update the tournamnet on the server */
@@ -80,15 +73,13 @@ export class TournamentService {
     const id = typeof tour === 'number' ? tour : tour.Id;
     const url = `${this.reqUrl+ "/api/tournaments/delete"}/${id}`;
 
-    return this.http.delete<Tournament>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted tour id=${id}`)),
-      catchError(this.handleError<Tournament>('deleteTour'))
-    );
+    return this.http.delete<Tournament>(url, this.httpOptions)
+    .map((res: any)=> res);
   }
 
   /** POST: Generate Round Robin Tournament*/
 
-  generateFixture(id: string): Observable<any>{
+  generateFixture(id: string): any{
     //this.deleteFixture(id);
     const url = `${this.reqUrl+ "/api/generator/drawFixture"}/${id}`;
     return this.http.post(url, this.httpOptions).pipe(
@@ -98,7 +89,7 @@ export class TournamentService {
   }
 
   /** DELETE: Delete all fixtures **/
-  deleteFixture(id: string): Observable<any>{
+  deleteFixture(id: string): any{
     const url = `${this.reqUrl+ "/api/generator/deleteFixture"}/${id}`;
     console.log(url);
     return this.http.delete(url, this.httpOptions).pipe(
@@ -109,7 +100,7 @@ export class TournamentService {
   }
 
   /** POST: generate the rank on server*/
-  generateRank(id: string): Observable<any>{
+  generateRank(id: string): any{
     //this.deleteFixture(id);
     const url = `${this.reqUrl+ "/api/generator/generateRank"}/${id}`;
     return this.http.post(url, this.httpOptions).pipe(
@@ -118,7 +109,7 @@ export class TournamentService {
     );
   }
 
-  /** Log a PlayerService message with the LogService */
+  /** Log a TournamentService message with the LogService */
   private log(message: string) {
     this.logService.add('TournamentService: ' + message);
   }

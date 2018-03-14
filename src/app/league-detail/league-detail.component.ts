@@ -27,26 +27,26 @@ export class LeagueDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getLeague();
+    this.getLeague(); // Get league detail information
 
   }
 
   getLeague(): void {
-  this.id = this.route.snapshot.paramMap.get('Id');
+  this.id = this.route.snapshot.paramMap.get('Id'); // get league Id from route
     this.leagueService.getLeague(this.id)
     .subscribe(league => this.league = league);
+    //get all tournaments
     this.tournamentService.getAllToursByLeague(this.id).subscribe(tours => this.tours = tours);
   }
 
 
-  /*getAllToursByLeague(){
-      this.tournmentService.getAllToursByLeague(this.id).subscribe(tours => this.tours = tours);
-  }*/
+  
 
   openAdd(){
-    this.router.navigate(['./leaguedetail',this.id,'addtournament']);
+    this.router.navigate(['./leaguedetail',this.id,'addtournament']); // open page to add new tournament
   }
 
+  // go to previous page
   goBack(): void {
     this.location.back();
   }
@@ -54,12 +54,12 @@ export class LeagueDetailComponent implements OnInit {
   save(): void {
 
    this.leagueService.updateLeague(this.league)
-     .subscribe(() => this.goBack());
+     .subscribe(() => this.goBack()); // after saving done, go back to last page
   }
 
   delete(tour:Tournament){
-    this.tours = this.tours.filter(h => h !== tour);
-      this.tournamentService.deleteTour(tour).subscribe();
+    this.tours = this.tours.filter(h => h !== tour); // remove tournament from list
+      this.tournamentService.deleteTour(tour).subscribe(); // delete tournament in database
   }
 
 

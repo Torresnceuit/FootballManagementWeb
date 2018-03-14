@@ -19,10 +19,13 @@ export class RegisterService {
     private router: Router
   ) { }
 
+  
   register(model:RegisterModel){
+
     var headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('Content-Type', 'application/x-www-form-urlencoded'); //define header
     let body: HttpParams = new HttpParams();
+    // define body request
     body = body.append('Username', model.Username);
     body = body.append('Email', model.Email);
     body = body.append('Password', model.Password);

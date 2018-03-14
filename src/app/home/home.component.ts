@@ -16,7 +16,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 })
 export class HomeComponent implements OnInit {
 
-  leagues: League[];
+  leagues: League[]; // retrieve league instances 
   constructor(
     private authenticationService: AuthenticationService,
     private leagueService: LeagueService,
@@ -25,35 +25,42 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.authenticationService.checkCredential();
+    // get all leagues when open page
     this.getAllLeagues();
 
 
 
   }
+
+  // Get background color for position badge
   getBackground(position){
-    //console.log("log"+ image);
+    
     var lastChar = position.substr(position.length-1);
-    //this.sanitizer.bypassSecurityTrustStyle(`url(${position})`);
+    
+    // Back position => green
     if(lastChar=="B"){
       return "green";
     }
+    // Forward position => red
     if(lastChar=="F"){
       return "red";
     }
+    // Midlefield => blue
     if(lastChar=="M"){
       return "blue";
     }
+    // Others => yellow
     return "yellow";
 
   }
 
   getAllLeagues(){
-    this.leagueService.getAllLeagues().subscribe(leagues => this.leagues = leagues);
+    // use leagueservice to get all leagues
+    this.leagueService.getAllLeagues().subscribe(leagues => this.leagues = leagues); // subscribe to store leagues
 
   }
   openAdd(){
-    this.router.navigate(['./addleague']);
+    this.router.navigate(['./addleague']); // open add league page
   }
 
   logout(){
@@ -61,8 +68,8 @@ export class HomeComponent implements OnInit {
   }
 
   delete(league: League){
-    this.leagues = this.leagues.filter(h => h !== league);
-      this.leagueService.deleteLeague(league).subscribe();
+    this.leagues = this.leagues.filter(h => h !== league); // remove the deleted league from leagues
+      this.leagueService.deleteLeague(league).subscribe(); // delete league in database
   }
 
 }
