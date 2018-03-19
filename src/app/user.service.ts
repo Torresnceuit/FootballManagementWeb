@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Http, Headers, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -10,10 +10,10 @@ import { User } from './user';
 
 @Injectable()
 export class UserService {
-  reqUrl = 'http://localhost:55903';
-  constructor(private http: HttpClient) { }
-  getAll() {
-        return this.http.get<User[]>(this.reqUrl+'/api/account/userinfo');
+    reqUrl = 'http://localhost:55903';
+    constructor(private http: HttpClient) { }
+    getAll() {
+        return this.http.get<User[]>(this.reqUrl + '/api/account/userinfo');
     }
 
     /*getById(id: number) {

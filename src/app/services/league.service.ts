@@ -9,12 +9,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { League } from '../league';
 import { LogService } from './log.service';
+import { environment } from '../../environments/environment'
 
 @Injectable()
 export class LeagueService {
-  reqUrl = 'http://localhost:55903';
-  public obj: any = {};
-  public httpOptions: any = {};
   constructor(
     private http: HttpClient,
     private logService: LogService
@@ -23,37 +21,22 @@ export class LeagueService {
 
   /** GET: Return a list of leagues */
   getAllLeagues (): Observable<League[]>{
-    this.obj=JSON.parse(localStorage.getItem('currentUser'));
-
-    this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.obj['access_token'] })
-    };
-    this.log(this.obj['access_token']);
-
-    return this.http.get<League[]>(this.reqUrl + "/api/leagues/getall/",this.httpOptions)
+    return this.http.get<League[]>(environment.reqUrl + "/api/leagues/getall/")
       .map((res: any)=>res);
     
   }
 
   /** GET a league by id. Will 404 if id not found */
   getLeague(id: string): Observable<League> {
-    this.obj=JSON.parse(localStorage.getItem('currentUser'));
-
-    this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.obj['access_token'] })
-    };
-    this.log(this.obj['access_token']);
-  const url = `${this.reqUrl+ "/api/leagues/getbyid"}/${id}`;
-  return this.http.get<League>(url,this.httpOptions)
+  const url = `${environment.reqUrl+ "/api/leagues/getbyid"}/${id}`;
+  return this.http.get<League>(url)
     .map((res:any)=> res);
   
   }
 
   /** POST: update the league on the server */
   updateLeague (league: League): Observable<any> {
-    return this.http.post<League>(this.reqUrl + "/api/leagues/update/", league, this.httpOptions).pipe(
+    return this.http.post<League>(environment.reqUrl + "/api/leagues/update/", league).pipe(
       tap(_ => this.log(`updated league id=${league.Id}`)),
       catchError(this.handleError<any>('updateLeague'))
     );
@@ -62,9 +45,9 @@ export class LeagueService {
   /** DELETE: delete the league from the server */
   deleteLeague (league: League | number): Observable<League> {
     const id = typeof league === 'number' ? league : league.Id;
-    const url = `${this.reqUrl+ "/api/leagues/delete"}/${id}`;
+    const url = `${environment.reqUrl+ "/api/leagues/delete"}/${id}`;
 
-    return this.http.delete<League>(url, this.httpOptions)
+    return this.http.delete<League>(url)
       .map((res: any)=> res);
     
   }

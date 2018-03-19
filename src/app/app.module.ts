@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -37,6 +37,9 @@ import { MatchService } from './services/match.service';
 import { MatchComponent } from './match/match.component';
 import { RankComponent } from './rank/rank.component';
 import { RankService } from './services/rank.service';
+import { HttpClientInterceptor } from './http-client-interceptor';
+import { ConnectionBackend, XHRBackend, RequestOptions, Http, HttpModule} from '@angular/http';
+
 
 
 
@@ -68,6 +71,7 @@ import { RankService } from './services/rank.service';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
+    HttpModule
 
   ],
   providers: [AuthenticationService, AuthGuard,UserService, RegisterService, PlayerService, LogService, LeagueService,
@@ -75,7 +79,12 @@ import { RankService } from './services/rank.service';
   TeamService,
   RoundService,
   MatchService,
-  RankService],
+  RankService,
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpClientInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

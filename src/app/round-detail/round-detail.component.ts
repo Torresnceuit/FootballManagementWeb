@@ -3,10 +3,11 @@ import { AuthenticationService } from '../authentication.service';
 import { MatchService } from '../services/match.service';
 import { RoundService } from '../services/round.service';
 import { RankService } from '../services/rank.service';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Match } from '../match';
 import { Round } from '../round';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-round-detail',
@@ -33,56 +34,59 @@ export class RoundDetailComponent implements OnInit {
     this.getAllMatchesByRound(this.Id); // get all matches of round with Id
 
     this.isValid = false
-    
+
 
   }
 
   ngAfterViewInit() {
-    
-}
+
+  }
 
   //Get round detail
-  getRound(id:string){
+  getRound(id: string) {
     this.roundService.getRound(id)
-      .subscribe(round=> {
+      .subscribe(round => {
         this.round = round; // assign round
         // If round is done, deactive proceed button
         this.isValid = !this.round.IsDone;
-      }); 
-    
+      });
+
   }
 
-  getAllMatches(){
+  getAllMatches() {
     this.matchService.getAllMatches()
-    .subscribe(matches => this.matches = matches); // assign matches from response to list of matches
+      .subscribe(matches => this.matches = matches); // assign matches from response to list of matches
 
   }
 
   //Get all the matches of round by roundId
-  getAllMatchesByRound(id:string){
+  getAllMatchesByRound(id: string) {
     this.matchService.getAllMatchesByRound(id)
-    .subscribe(matches => this.matches = matches);
+      .subscribe(matches => this.matches = matches);
 
   }
 
   //Simulate the matches with random results
-  proceed(){
-      for(var i = 0;i<this.matches.length;i++){
-        var maxNumHome = this.getRandom(0,10);
-        var maxNumAway = this.getRandom(0,5);
-        if(this.matches[i].HomeId!= null && this.matches[i].AwayId!=null){
-          this.matches[i].HomeScore = this.getRandom(0,maxNumHome);
-          this.matches[i].AwayScore = this.getRandom(0,maxNumAway);
-          this.matches[i].IsDone = true;
-        }
-
+  proceed() {
+    for(var match of this.matches) {
+      var maxNumHome = this.getRandom(0, 10);
+      var maxNumAway = this.getRandom(0, 5);
+      if (match.HomeId != null && match.AwayId != null) {
+        match.HomeScore = this.getRandom(0, maxNumHome);
+        match.AwayScore = this.getRandom(0, maxNumAway);
+        match.IsDone = true;
       }
-      // inform round is done
-      this.round.IsDone = true;
+
+    }
+    // inform round is done
+    this.round.IsDone = true;
 
 
-      this.roundService.updateRound(this.round).subscribe();
-      this.matchService.proceedMatches(this.matches).subscribe(Ok => this.isValid = false);
+    this.roundService.updateRound(this.round).subscribe();
+    this.matchService.proceedMatches(this.matches).subscribe(Ok => {
+      this.isValid = false
+      console.log('Proceed done!')
+    });
 
   }
 
@@ -91,13 +95,13 @@ export class RoundDetailComponent implements OnInit {
   }
 
   /* Get the rank table of tournament */
-  openRank(){
+  openRank() {
 
   }
 
   /* Get random result from 0 to 5*/
-  getRandom(min: number, max: number):number{
-    return Math.floor(Math.random()*(max-min+1))+min;
+  getRandom(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
 }

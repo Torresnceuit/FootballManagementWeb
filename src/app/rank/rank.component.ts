@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { RankService } from '../services/rank.service';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Rank } from '../rank';
 
@@ -23,22 +23,22 @@ export class RankComponent implements OnInit {
 
 
 
-  ngOnInit(){
+  ngOnInit() {
     this.tourId = this.route.snapshot.paramMap.get('Id');
     this.getAllRanksByTour(this.tourId);
   }
 
-  getAllRanks(){
+  getAllRanks() {
     this.rankService.getAllRanks().subscribe(ranks => this.ranks = ranks);
 
   }
 
-  getAllRanksByTour(id:string){
+  getAllRanksByTour(id: string) {
     this.rankService.getAllRanksByTour(id).subscribe(ranks => this.ranks = ranks);
 
   }
 
-  goBack(){
+  goBack() {
     this.location.back();
   }
 

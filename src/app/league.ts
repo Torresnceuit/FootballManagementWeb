@@ -1,4 +1,4 @@
-export class League{
+export class League {
   Id: string;
   Name: string;
   Logo: string;

@@ -13,7 +13,7 @@ import { Match } from '../match';
 export class MatchComponent implements OnInit {
   matches: Match[];
   @Input() roundId: any;
-  
+
   constructor() { }
 
   ngOnInit() {

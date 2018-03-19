@@ -24,21 +24,21 @@ export class RoundComponent implements OnInit {
     this.getAllRoundsByTour(this.tourId);
   }
 
-  getAllRounds(){
+  getAllRounds() {
     this.roundService.getAllRounds().subscribe(rounds => this.rounds = rounds);
 
   }
 
-  getAllRoundsByTour(id:string){
+  getAllRoundsByTour(id: string) {
     this.roundService.getAllRoundsByTour(id).subscribe(rounds => this.rounds = rounds);
 
   }
 
-  getBackgroundColor(IsDone:boolean){
-    if(IsDone){
+  getBackgroundColor(IsDone: boolean) {
+    if (IsDone) {
       return '#CFD8DC';
     }
-    
+
   }
 
 

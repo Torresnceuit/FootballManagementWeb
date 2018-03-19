@@ -1,4 +1,4 @@
-export class Rank{
+export class Rank {
   Id: string;
   TeamId: string;
   TourId: string;

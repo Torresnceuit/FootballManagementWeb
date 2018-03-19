@@ -1,4 +1,4 @@
-export class Match{
+export class Match {
   Id: string;
   HomeId: string;
   AwayId: string;

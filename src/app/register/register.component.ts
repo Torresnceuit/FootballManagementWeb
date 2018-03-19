@@ -4,9 +4,9 @@ import { RegisterService } from '../services/register.service';
 
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
 
@@ -17,9 +17,9 @@ export class RegisterComponent implements OnInit {
     constructor(
         private router: Router,
         private registerService: RegisterService
-      ) { }
+    ) { }
 
-      
+
     create() {
         this.loading = true;
         this.registerService.register(this.register)
@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
                 });
     }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

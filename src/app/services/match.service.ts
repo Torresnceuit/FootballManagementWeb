@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Http, Headers, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -9,73 +9,55 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Match } from '../match';
 import { LogService } from './log.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class MatchService {
-  reqUrl = 'http://localhost:55903';
-  public obj: any = {};
-  public httpOptions: any = {};
   constructor(
     private http: HttpClient,
     private logService: LogService
   ) { }
 
   /** Get all matches, return a list of matches */
-  getAllMatches (): Observable<Match[]>{
-    this.obj=JSON.parse(localStorage.getItem('currentUser'));
+  getAllMatches(): Observable<Match[]> {
 
-    this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.obj['access_token'] })
-    };
-    this.log(this.obj['access_token']);
 
-    return this.http.get(this.reqUrl + "/api/matches/getall/",this.httpOptions)
-    .map((res: any)=> res);
+    return this.http.get(environment.reqUrl + "/api/matches/getall/")
+      .map((res: any) => res);
   }
   /** GET all matches by Round Id, return a list of matches*/
-  getAllMatchesByRound (roundId:string): Observable<Match[]>{
-    this.obj=JSON.parse(localStorage.getItem('currentUser'));
+  getAllMatchesByRound(roundId: string): Observable<Match[]> {
 
-    this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.obj['access_token'] })
-    };
-    this.log(this.obj['access_token']);
-    const url = `${this.reqUrl+ "/api/matches/getAllByRound"}/${roundId}`;
-    return this.http.get<Match[]>(url,this.httpOptions)
-    .map((res: any)=> res);
+    const url = `${environment.reqUrl + "/api/matches/getAllByRound"}/${roundId}`;
+    return this.http.get<Match[]>(url)
+      .map((res: any) => res);
   }
 
   /** GET a match by id. Will 404 if id not found */
   getMatch(id: string): Observable<Match> {
-    this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
-    this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.obj['access_token'] })
-    };
-    this.log(this.obj['access_token']);
-  const url = `${this.reqUrl+ "/api/matches/getbyid"}/${id}`;
-  return this.http.get<Match>(url,this.httpOptions)
-  .map((res: any)=> res);
+    const url = `${environment.reqUrl + "/api/matches/getbyid"}/${id}`;
+    return this.http.get<Match>(url)
+      .map((res: any) => res);
   }
 
   /** POST: update the match on the server */
-  updateMatch (match: Match): Observable<any> {
-    return this.http.post<Match>(this.reqUrl + "/api/matches/update/", match, this.httpOptions).pipe(
-      tap(_ => this.log(`updated match id=${match.Id}`)),
-      catchError(this.handleError<any>('updateMatch'))
-    );
+  updateMatch(match: Match): Observable<any> {
+    return this.http.post<Match>(environment.reqUrl + "/api/matches/update/", match)
+      .pipe(
+        tap(_ => this.log(`updated match id=${match.Id}`)),
+        catchError(this.handleError<any>('updateMatch'))
+      );
   }
 
   /** POST: update the matches results on server**/
-  proceedMatches(matches: Match[]){
-    const url = `${this.reqUrl+ "/api/matches/updateall"}`;
-    return this.http.post(url,matches, this.httpOptions).pipe(
-      tap(_ => this.log(`updated all matches`)),
-      catchError(this.handleError<any>('proceedMatches'))
-    );
+  proceedMatches(matches: Match[]) {
+    const url = `${environment.reqUrl + "/api/matches/updateall"}`;
+    return this.http.post(url, matches)
+      .pipe(
+        tap(_ => this.log(`updated all matches`)),
+        catchError(this.handleError<any>('proceedMatches'))
+      );
   }
 
   /** Log a MatchService message with the LogService */
@@ -89,7 +71,7 @@ export class MatchService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure

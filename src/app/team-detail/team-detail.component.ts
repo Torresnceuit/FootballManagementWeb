@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { Team } from '../team';
 
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { TeamService } from '../services/team.service';
 import { PlayerService } from '../services/player.service';
@@ -28,25 +28,25 @@ export class TeamDetailComponent implements OnInit {
   }
 
   getTeam(): void {
-  this.id = this.route.snapshot.paramMap.get('Id');
+    this.id = this.route.snapshot.paramMap.get('Id');
     this.teamService.getTeam(this.id)
-    .subscribe(team => this.team = team); // assign team to response
-    
+      .subscribe(team => this.team = team); // assign team to response
+
   }
 
   goBack(): void {
     this.location.back(); // return
   }
 
-  logout(){
-    
+  logout() {
+
   }
 
   //Save team after update
   save(): void {
 
-   this.teamService.updateTeam(this.team)
-     .subscribe(() => this.goBack()); // update done, return to last page
- }
+    this.teamService.updateTeam(this.team)
+      .subscribe(() => this.goBack()); // update done, return to last page
+  }
 
 }

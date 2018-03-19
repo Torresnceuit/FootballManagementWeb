@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Http, Headers, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -9,79 +9,52 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { Team } from '../team';
 import { LogService } from './log.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class TeamService {
-  reqUrl = 'http://localhost:55903';
-  public obj: any = {};
-  public httpOptions: any = {};
   constructor(
     private http: HttpClient,
     private logService: LogService
   ) { }
 
   /** Get all teams, return a list of teams */
-  getAllTeams (): Observable<Team[]>{
-    this.obj=JSON.parse(localStorage.getItem('currentUser'));
+  getAllTeams(): Observable<Team[]> {
 
-    this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.obj['access_token'] })
-    };
-    this.log(this.obj['access_token']);
-
-    return this.http.get<Team[]>(this.reqUrl + "/api/teams/getall/",this.httpOptions)
-    .map((res: any)=> res);
+    return this.http.get<Team[]>(environment.reqUrl + "/api/teams/getall/")
+      .map((res: any) => res);
   }
   /** GET all team by Tournament Id*/
-  getAllTeamsByTour (TourId:string): Observable<Team[]>{
-    this.obj=JSON.parse(localStorage.getItem('currentUser'));
+  getAllTeamsByTour(TourId: string): Observable<Team[]> {
 
-    this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.obj['access_token'] })
-    };
-    this.log(this.obj['access_token']);
-    const url = `${this.reqUrl+ "/api/teams/getAllByTour"}/${TourId}`;
-    return this.http.get<Team[]>(url,this.httpOptions)
-    .map((res: any)=> res);
+    const url = `${environment.reqUrl + "/api/teams/getAllByTour"}/${TourId}`;
+    return this.http.get<Team[]>(url)
+      .map((res: any) => res);
   }
 
   /** GET a team by id. Will 404 if id not found */
   getTeam(id: string): Observable<Team> {
-    this.obj=JSON.parse(localStorage.getItem('currentUser'));
 
-    this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.obj['access_token'] })
-    };
-    this.log(this.obj['access_token']);  this.obj=JSON.parse(localStorage.getItem('currentUser'));
-
-    this.httpOptions = {
-          headers: new HttpHeaders({ 'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + this.obj['access_token'] })
-    };
-    this.log(this.obj['access_token']);
-  const url = `${this.reqUrl+ "/api/teams/getbyid"}/${id}`;
-  return this.http.get<Team>(url,this.httpOptions)
-  .map((res: any)=> res);
+    const url = `${environment.reqUrl + "/api/teams/getbyid"}/${id}`;
+    return this.http.get<Team>(url)
+      .map((res: any) => res);
   }
 
   /** POST: update the team on the server */
-  updateTeam (team: Team): Observable<any> {
-    return this.http.post<Team>(this.reqUrl + "/api/teams/update/", team, this.httpOptions).pipe(
+  updateTeam(team: Team): Observable<any> {
+    return this.http.post<Team>(environment.reqUrl + "/api/teams/update/", team).pipe(
       tap(_ => this.log(`updated team id=${team.Id}`)),
       catchError(this.handleError<any>('updateTeam'))
     );
   }
 
   /** DELETE: remove a team from database **/
-  deleteTeam (team: Team | number): Observable<Team> {
+  deleteTeam(team: Team | number): Observable<Team> {
     const id = typeof team === 'number' ? team : team.Id;
-    const url = `${this.reqUrl+ "/api/teams/delete"}/${id}`;
+    const url = `${environment.reqUrl + "/api/teams/delete"}/${id}`;
 
-    return this.http.delete<Team>(url, this.httpOptions)
-      .map((res: any)=> res);
+    return this.http.delete<Team>(url)
+      .map((res: any) => res);
   }
   /** Log a Teamservice message with the LogService */
   private log(message: string) {
@@ -94,7 +67,7 @@ export class TeamService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T> (operation = 'operation', result?: T) {
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure

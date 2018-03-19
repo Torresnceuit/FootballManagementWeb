@@ -23,9 +23,9 @@ export class PlayerDetailComponent implements OnInit {
   }
 
   getPlayer(): void {
-  const id = this.route.snapshot.paramMap.get('Id');
+    const id = this.route.snapshot.paramMap.get('Id');
     this.playerService.getPlayer(id)
-    .subscribe(player => this.player = player);
+      .subscribe(player => this.player = player);
   }
 
   goBack(): void {
@@ -34,10 +34,10 @@ export class PlayerDetailComponent implements OnInit {
 
   save(): void {
 
-   this.player.Positions = (this.element.nativeElement.querySelector('#_playerPos').value).split(",");
-   console.log(this.player.Positions);
-   this.playerService.updatePlayer(this.player)
-     .subscribe(() => this.goBack());
- }
+    this.player.Positions = (this.element.nativeElement.querySelector('#_playerPos').value).split(",");
+    console.log(this.player.Positions);
+    this.playerService.updatePlayer(this.player)
+      .subscribe(() => this.goBack());
+  }
 
 }

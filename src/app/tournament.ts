@@ -1,4 +1,4 @@
-export class Tournament{
+export class Tournament {
   Id: string;
   Name: string;
   NoOfTeam: number;

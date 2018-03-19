@@ -22,7 +22,7 @@ export class TeamPlayersComponent implements OnInit {
     private playerService: PlayerService,
     private router: Router,
     private sanitizer: DomSanitizer
-  ){}
+  ) { }
 
   ngOnInit() {
     //this.authenticationService.checkCredential();
@@ -31,41 +31,44 @@ export class TeamPlayersComponent implements OnInit {
 
 
   }
-  getBackground(position){
+  getBackground(position) {
     //console.log("log"+ image);
-    var lastChar = position.substr(position.length-1);
+    var lastChar = position.substr(position.length - 1);
     //this.sanitizer.bypassSecurityTrustStyle(`url(${position})`);
-    if(lastChar=="B"){
+    if (lastChar == "B") {
       return "green";
     }
-    if(lastChar=="F"){
+    if (lastChar == "F") {
       return "red";
     }
-    if(lastChar=="M"){
+    if (lastChar == "M") {
       return "blue";
     }
     return "yellow";
 
   }
 
-  getAllPlayers(){
+  getAllPlayers() {
     this.playerService.getAllPlayers().subscribe(players => this.players = players);
 
   }
 
-  getAllPlayersByTeam(id:string){
+  getAllPlayersByTeam(id: string) {
     this.playerService.getAllPlayersByTeam(id).subscribe(players => this.players = players);
 
   }
-  openAdd(){
-    this.router.navigate(['./teamdetail/'+this.teamId+'/add']);
+  openAdd() {
+    this.router.navigate(['./teamdetail/' + this.teamId + '/add']);
   }
 
-  delete(player: Player){
+  delete(player: Player) {
     
+    this.playerService.deletePlayer(player).subscribe(Ok=>{
+      this.players = this.players.filter(h => h !== player); 
+    });
   }
 
-  logout(){
+  logout() {
     this.authenticationService.logout();
   }
 
