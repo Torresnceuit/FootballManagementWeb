@@ -18,8 +18,9 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./addleague.component.css']
 })
 export class AddleagueComponent implements OnInit {
+  // default url for player avatar
   url: any = "http://placehold.it/180";
-
+  // this variable is used to get image id from server
   imgPathRes: string;
   league: any = {};
   constructor(
@@ -37,6 +38,7 @@ export class AddleagueComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
   // Update league to database
   save() {
     this.league.Logo = environment.reqUrl + this.imgPathRes;
@@ -50,6 +52,7 @@ export class AddleagueComponent implements OnInit {
   // readUrl and pass to the preview image
   readUrl(event: any) {
     this.upload(event);
+
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
 
@@ -57,6 +60,7 @@ export class AddleagueComponent implements OnInit {
         this.url = event.target.result;
       }
 
+      // read image from url
       reader.readAsDataURL(event.target.files[0]);
     }
 
@@ -64,13 +68,15 @@ export class AddleagueComponent implements OnInit {
 
   upload(event) {
     let fileList: FileList = event.target.files;
-    //let fileList = this.element.nativeElement.querySelector('#uploadFile').files;
 
     if (fileList.length > 0) {
       let file = fileList[0];
+
+      // build form data
       let formData: FormData = new FormData();
       formData.append('uploadFile', file, file.name);
-      //this.player.Avatar = this.reqUrl+'/Content/Upload/'+file.name;
+
+      // api url to send request
       let apiUrl1 = environment.reqUrl + "/api/Upload/Image";
 
 
@@ -79,6 +85,8 @@ export class AddleagueComponent implements OnInit {
         .catch(error => Observable.throw(error))
         .subscribe(
           data => {
+            
+            // get image guid from server response
             this.imgPathRes = data;
             console.log(this.imgPathRes);
 
@@ -86,8 +94,6 @@ export class AddleagueComponent implements OnInit {
           error => console.log(error)
         )
     }
-
-    //window.location.reload();
 
   }
 

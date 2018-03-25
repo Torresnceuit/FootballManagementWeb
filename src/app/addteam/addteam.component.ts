@@ -19,8 +19,13 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./addteam.component.css']
 })
 export class AddteamComponent implements OnInit {
+
+  // default image url to load 
   url: any = "http://placehold.it/180";
+
+  // string variable to store guid
   imgPathRes: string;
+
   team: any = {};
   tourId: string;
   constructor(
@@ -35,10 +40,11 @@ export class AddteamComponent implements OnInit {
   ngOnInit() {
   }
 
-  // Go to the previous location*/
+  // Go to the previous location
   goBack(): void {
     this.location.back();
   }
+
   // Update tournament to database
   save() {
   
@@ -62,6 +68,7 @@ export class AddteamComponent implements OnInit {
         this.url = event.target.result;
       }
 
+      // read image from url
       reader.readAsDataURL(event.target.files[0]);
     }
 
@@ -69,13 +76,16 @@ export class AddteamComponent implements OnInit {
 
   upload(event) {
     let fileList: FileList = event.target.files;
-    //let fileList = this.element.nativeElement.querySelector('#uploadFile').files;
-
+    
+    // check length of fileList
     if (fileList.length > 0) {
       let file = fileList[0];
+
+      // build form data
       let formData: FormData = new FormData();
       formData.append('uploadFile', file, file.name);
-      //this.player.Avatar = this.reqUrl+'/Content/Upload/'+file.name;
+
+      // api url to send request to server
       let apiUrl1 = environment.reqUrl + "/api/Upload/Image";
 
       if (formData) console.log(file);
@@ -83,6 +93,8 @@ export class AddteamComponent implements OnInit {
         .catch(error => Observable.throw(error))
         .subscribe(
           data => {
+            
+            // get image id from server
             this.imgPathRes = data;
             console.log(this.imgPathRes);
 
@@ -91,7 +103,6 @@ export class AddteamComponent implements OnInit {
         )
     }
 
-    //window.location.reload();
 
   }
 

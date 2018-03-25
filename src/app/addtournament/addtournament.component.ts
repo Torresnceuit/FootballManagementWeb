@@ -20,8 +20,13 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./addtournament.component.css']
 })
 export class AddtournamentComponent implements OnInit {
+
+  // default image url to load
   url: any = "http://placehold.it/180";
+
+  // string variable to store guid
   imgPathRes: string;
+
   tour: any = {};
   @Input() leagueId: string;
   constructor(
@@ -40,9 +45,11 @@ export class AddtournamentComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
+
   //Update tournament to database
   save() {
 
+    // assign logo url by reqUrl + guid 
     this.tour.Logo = environment.reqUrl + this.imgPathRes;
     this.leagueId = this.route.snapshot.paramMap.get('Id');
     this.tour.LeagueId = this.leagueId;
@@ -63,6 +70,7 @@ export class AddtournamentComponent implements OnInit {
         this.url = event.target.result;
       }
 
+      // read image data 
       reader.readAsDataURL(event.target.files[0]);
     }
 
@@ -70,13 +78,16 @@ export class AddtournamentComponent implements OnInit {
 
   upload(event) {
     let fileList: FileList = event.target.files;
-    //let fileList = this.element.nativeElement.querySelector('#uploadFile').files;
 
+    // check fileList
     if (fileList.length > 0) {
       let file = fileList[0];
+
+      // build form data
       let formData: FormData = new FormData();
       formData.append('uploadFile', file, file.name);
-      //this.player.Avatar = this.reqUrl+'/Content/Upload/'+file.name;
+
+      // api url to send request
       let apiUrl1 = environment.reqUrl + "/api/Upload/Image";
 
       if (formData) console.log(file);
@@ -84,6 +95,8 @@ export class AddtournamentComponent implements OnInit {
         .catch(error => Observable.throw(error))
         .subscribe(
           data => {
+
+            // get image guid from server response
             this.imgPathRes = data;
             console.log(this.imgPathRes);
 
@@ -92,7 +105,6 @@ export class AddtournamentComponent implements OnInit {
         )
     }
 
-    //window.location.reload();
 
   }
 }

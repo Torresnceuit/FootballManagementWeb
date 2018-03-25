@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { League } from '../league';
 import { Tournament } from '../tournament';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { LeagueService } from '../services/league.service';
 import { TournamentService } from '../services/tournament.service';
@@ -32,18 +32,18 @@ export class LeagueDetailComponent implements OnInit {
   }
 
   getLeague(): void {
-  this.id = this.route.snapshot.paramMap.get('Id'); // get league Id from route
+    this.id = this.route.snapshot.paramMap.get('Id'); // get league Id from route
     this.leagueService.getLeague(this.id)
-    .subscribe(league => this.league = league);
+      .subscribe(league => this.league = league);
     //get all tournaments
     this.tournamentService.getAllToursByLeague(this.id).subscribe(tours => this.tours = tours);
   }
 
 
-  
 
-  openAdd(){
-    this.router.navigate(['./leaguedetail',this.id,'addtournament']); // open page to add new tournament
+
+  openAdd() {
+    this.router.navigate(['./leaguedetail', this.id, 'addtournament']); // open page to add new tournament
   }
 
   // go to previous page
@@ -53,13 +53,13 @@ export class LeagueDetailComponent implements OnInit {
 
   save(): void {
 
-   this.leagueService.updateLeague(this.league)
-     .subscribe(() => this.goBack()); // after saving done, go back to last page
+    this.leagueService.updateLeague(this.league)
+      .subscribe(() => this.goBack()); // after saving done, go back to last page
   }
 
-  delete(tour:Tournament){
+  delete(tour: Tournament) {
     this.tours = this.tours.filter(h => h !== tour); // remove tournament from list
-      this.tournamentService.deleteTour(tour).subscribe(); // delete tournament in database
+    this.tournamentService.deleteTour(tour).subscribe(); // delete tournament in database
   }
 
 

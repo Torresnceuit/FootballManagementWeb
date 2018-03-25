@@ -62,9 +62,9 @@ export class TeamPlayersComponent implements OnInit {
   }
 
   delete(player: Player) {
-    
-    this.playerService.deletePlayer(player).subscribe(Ok=>{
-      this.players = this.players.filter(h => h !== player); 
+
+    this.playerService.deletePlayer(player).subscribe(Ok => {
+      this.players = this.players.filter(h => h !== player);
     });
   }
 

@@ -68,7 +68,7 @@ export class RoundDetailComponent implements OnInit {
 
   //Simulate the matches with random results
   proceed() {
-    for(var match of this.matches) {
+    for (var match of this.matches) {
       var maxNumHome = this.getRandom(0, 10);
       var maxNumAway = this.getRandom(0, 5);
       if (match.HomeId != null && match.AwayId != null) {
