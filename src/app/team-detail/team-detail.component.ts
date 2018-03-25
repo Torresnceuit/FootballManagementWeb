@@ -24,18 +24,24 @@ export class TeamDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getTeam(); // Get team detail
+
+    // Get team detail
+    this.getTeam(); 
   }
 
   getTeam(): void {
     this.id = this.route.snapshot.paramMap.get('Id');
     this.teamService.getTeam(this.id)
-      .subscribe(team => this.team = team); // assign team to response
+
+    // assign response data to team
+      .subscribe(team => this.team = team); 
 
   }
 
   goBack(): void {
-    this.location.back(); // return
+
+    // return to last location
+    this.location.back(); 
   }
 
   logout() {
@@ -46,7 +52,9 @@ export class TeamDetailComponent implements OnInit {
   save(): void {
 
     this.teamService.updateTeam(this.team)
-      .subscribe(() => this.goBack()); // update done, return to last page
+
+    // update done, return to last page
+      .subscribe(() => this.goBack()); 
   }
 
 }

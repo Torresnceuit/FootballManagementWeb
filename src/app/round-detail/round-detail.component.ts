@@ -29,10 +29,13 @@ export class RoundDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.Id = this.route.snapshot.paramMap.get('Id'); // get round Id from route
-    this.getRound(this.Id);
-    this.getAllMatchesByRound(this.Id); // get all matches of round with Id
 
+    // get round Id from route
+    this.Id = this.route.snapshot.paramMap.get('Id'); 
+    this.getRound(this.Id);
+
+    // get all matches of round with Id
+    this.getAllMatchesByRound(this.Id); 
     this.isValid = false
 
 
@@ -46,7 +49,10 @@ export class RoundDetailComponent implements OnInit {
   getRound(id: string) {
     this.roundService.getRound(id)
       .subscribe(round => {
-        this.round = round; // assign round
+
+        // assign round
+        this.round = round; 
+
         // If round is done, deactive proceed button
         this.isValid = !this.round.IsDone;
       });
@@ -55,11 +61,13 @@ export class RoundDetailComponent implements OnInit {
 
   getAllMatches() {
     this.matchService.getAllMatches()
-      .subscribe(matches => this.matches = matches); // assign matches from response to list of matches
+
+    // assign matches from response to list of matches
+      .subscribe(matches => this.matches = matches); 
 
   }
 
-  //Get all the matches of round by roundId
+  //Get all the matches of round
   getAllMatchesByRound(id: string) {
     this.matchService.getAllMatchesByRound(id)
       .subscribe(matches => this.matches = matches);
@@ -78,12 +86,17 @@ export class RoundDetailComponent implements OnInit {
       }
 
     }
+
     // inform round is done
     this.round.IsDone = true;
 
-
+    // update round in database
     this.roundService.updateRound(this.round).subscribe();
+
+    // send procced matches request to server
     this.matchService.proceedMatches(this.matches).subscribe(Ok => {
+
+      // deactive proceed button after round done
       this.isValid = false
       console.log('Proceed done!')
     });
@@ -94,12 +107,12 @@ export class RoundDetailComponent implements OnInit {
     this.location.back();
   }
 
-  /* Get the rank table of tournament */
+  // Get the rank table of tournament 
   openRank() {
 
   }
 
-  /* Get random result from 0 to 5*/
+  // Get random result from 0 to 5
   getRandom(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }

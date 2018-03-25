@@ -18,16 +18,19 @@ export class PlayerDetailComponent implements OnInit {
     private location: Location
   ) { }
 
+  // on init, get player information
   ngOnInit() {
     this.getPlayer();
   }
 
+  // get player by Id
   getPlayer(): void {
     const id = this.route.snapshot.paramMap.get('Id');
     this.playerService.getPlayer(id)
       .subscribe(player => this.player = player);
   }
 
+  // go to previous location
   goBack(): void {
     this.location.back();
   }
@@ -37,6 +40,8 @@ export class PlayerDetailComponent implements OnInit {
     this.player.Positions = (this.element.nativeElement.querySelector('#_playerPos').value).split(",");
     console.log(this.player.Positions);
     this.playerService.updatePlayer(this.player)
+
+    // after update, go to previous location
       .subscribe(() => this.goBack());
   }
 

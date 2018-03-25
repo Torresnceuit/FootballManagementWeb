@@ -27,35 +27,55 @@ export class TournamentDetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getTour(); // get tour on create
+
+    // get tour on create
+    this.getTour();
   }
 
   getTour(): void {
-    this.id = this.route.snapshot.paramMap.get('Id'); // get tournament Id from route
+
+    // get tournament Id from route
+    this.id = this.route.snapshot.paramMap.get('Id');
     this.tournamentService.getTour(this.id)
-      .subscribe(tour => this.tour = tour); // subscribe to the response
-    this.teamService.getAllTeamsByTour(this.id).subscribe(teams => this.teams = teams); // get all teams
+
+      // subscribe to the response
+      .subscribe(tour => this.tour = tour);
+
+    // get all teams of tournament
+    this.teamService.getAllTeamsByTour(this.id).subscribe(teams => this.teams = teams);
   }
 
 
 
   openAdd() {
-    this.router.navigate(['./tourdetail', this.id, 'addteam']); // navigate to add team page
+
+    // navigate to add team page
+    this.router.navigate(['./tourdetail', this.id, 'addteam']);
   }
 
   goBack(): void {
-    this.location.back(); // return to last location
+
+    // return to last location
+    this.location.back();
   }
+
   //Save tournament
   save(): void {
 
     this.tournamentService.updateTour(this.tour)
+
+      // return to last location
       .subscribe(() => this.goBack());
   }
+
   //Delete a team
   delete(team: Team) {
-    this.teams = this.teams.filter(h => h !== team);
-    this.teamService.deleteTeam(team).subscribe();
+
+    this.teamService.deleteTeam(team).subscribe(Ok => {
+
+      // remove team after response
+      this.teams = this.teams.filter(h => h !== team);
+    });
   }
 
   //Generate the fixture for whole season
@@ -69,7 +89,9 @@ export class TournamentDetailComponent implements OnInit {
   openRank() {
     this.tournamentService.generateRank(this.id)
       .subscribe(Ok => this.router
-        .navigate(['./tourdetail', this.id, 'rank'])); // open rank page
+
+        // open rank page
+        .navigate(['./tourdetail', this.id, 'rank']));
 
   }
 

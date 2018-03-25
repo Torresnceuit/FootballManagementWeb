@@ -20,24 +20,19 @@ export class RankComponent implements OnInit {
     private location: Location
   ) { }
 
-
-
-
+  // on init, get all ranks by tournament id
   ngOnInit() {
     this.tourId = this.route.snapshot.paramMap.get('Id');
     this.getAllRanksByTour(this.tourId);
   }
 
-  getAllRanks() {
-    this.rankService.getAllRanks().subscribe(ranks => this.ranks = ranks);
-
-  }
-
+  // get all rank by tournament id
   getAllRanksByTour(id: string) {
     this.rankService.getAllRanksByTour(id).subscribe(ranks => this.ranks = ranks);
 
   }
 
+  // go back to previous location
   goBack() {
     this.location.back();
   }

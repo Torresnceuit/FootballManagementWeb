@@ -25,49 +25,62 @@ export class TeamPlayersComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.authenticationService.checkCredential();
+
+    // get all players of team
     this.getAllPlayersByTeam(this.teamId);
 
 
 
   }
+
+  // get postion and return background
   getBackground(position) {
-    //console.log("log"+ image);
+
+    // get the last char of position
     var lastChar = position.substr(position.length - 1);
-    //this.sanitizer.bypassSecurityTrustStyle(`url(${position})`);
+
+    // if last char is B => Defender, green
     if (lastChar == "B") {
       return "green";
     }
+
+    // if last char is F => Forward, red
     if (lastChar == "F") {
       return "red";
     }
+
+    // if last char is M => Midlefielder, blue
     if (lastChar == "M") {
       return "blue";
     }
+
+    // others, yellow
     return "yellow";
 
   }
 
-  getAllPlayers() {
-    this.playerService.getAllPlayers().subscribe(players => this.players = players);
-
-  }
-
+  // get all players of team
   getAllPlayersByTeam(id: string) {
     this.playerService.getAllPlayersByTeam(id).subscribe(players => this.players = players);
 
   }
+
+  // add player
   openAdd() {
     this.router.navigate(['./teamdetail/' + this.teamId + '/add']);
   }
 
+  // delete player
   delete(player: Player) {
 
     this.playerService.deletePlayer(player).subscribe(Ok => {
+
+      // remove player after response
       this.players = this.players.filter(h => h !== player);
     });
   }
 
+  // log out
   logout() {
     this.authenticationService.logout();
   }

@@ -25,12 +25,13 @@ export class RegisterComponent implements OnInit {
         this.registerService.register(this.register)
             .subscribe(
                 data => {
+
                     // set success message and pass true paramater to persist the message after redirecting to the login page
-                    //this.alertService.success('Registration successful', true);
                     this.router.navigate(['/login']);
                 },
                 error => {
-                    //this.alertService.error(error);
+
+                    // alert the error message to user
                     this.loading = false;
                     this.result = 'You are required to provide correct information';
                 });

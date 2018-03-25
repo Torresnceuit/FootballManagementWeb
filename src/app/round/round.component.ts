@@ -19,23 +19,24 @@ export class RoundComponent implements OnInit {
     private router: Router
   ) { }
 
+
   ngOnInit() {
 
+    // get all round of tournament 
     this.getAllRoundsByTour(this.tourId);
   }
 
-  getAllRounds() {
-    this.roundService.getAllRounds().subscribe(rounds => this.rounds = rounds);
-
-  }
-
+  // get all round by the tournament id
   getAllRoundsByTour(id: string) {
     this.roundService.getAllRoundsByTour(id).subscribe(rounds => this.rounds = rounds);
 
   }
 
+  // get the round isdone information and return the background
   getBackgroundColor(IsDone: boolean) {
     if (IsDone) {
+
+      // if round done
       return '#CFD8DC';
     }
 
