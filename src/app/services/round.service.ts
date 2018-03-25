@@ -25,6 +25,7 @@ export class RoundService {
     return this.http.get<Round[]>(environment.reqUrl + "/api/rounds/getall/")
       .map((res: any) => res);
   }
+  
   /** GET all rounds by Tournament Id, return a list of rounds*/
   getAllRoundsByTour(tourId: string): Observable<Round[]> {
 

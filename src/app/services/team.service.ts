@@ -24,6 +24,7 @@ export class TeamService {
     return this.http.get<Team[]>(environment.reqUrl + "/api/teams/getall/")
       .map((res: any) => res);
   }
+  
   /** GET all team by Tournament Id*/
   getAllTeamsByTour(TourId: string): Observable<Team[]> {
 
@@ -56,6 +57,7 @@ export class TeamService {
     return this.http.delete<Team>(url)
       .map((res: any) => res);
   }
+
   /** Log a Teamservice message with the LogService */
   private log(message: string) {
     this.logService.add('TeamService: ' + message);

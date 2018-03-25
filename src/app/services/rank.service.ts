@@ -24,6 +24,7 @@ export class RankService {
     return this.http.get<Rank[]>(environment.reqUrl + "/api/ranks/getall/")
       .map((res: any) => res);
   }
+
   /** GET all rank by Tournament Id, return a list of ranks*/
   getAllRanksByTour(tourId: string): Observable<Rank[]> {
 
@@ -59,8 +60,6 @@ export class RankService {
         catchError(this.handleError<any>('generateRank'))
       );
   }
-
-
 
   /** Log a RankService message with the LogService */
   private log(message: string) {
