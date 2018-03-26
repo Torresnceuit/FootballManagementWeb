@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { RoundService } from '../services/round.service';
 import { Router } from '@angular/router'
 
-import { Match } from '../match';
+import { Match } from '../models/match';
 
 @Component({
   selector: 'app-match',

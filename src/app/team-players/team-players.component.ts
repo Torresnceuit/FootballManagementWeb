@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { PlayerService } from '../services/player.service';
 import { Router } from '@angular/router'
 
-import { User } from '../user';
-import { Player } from '../player';
+import { User } from '../models/user';
+import { Player } from '../models/player';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Component({

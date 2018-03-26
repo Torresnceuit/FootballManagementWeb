@@ -6,8 +6,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClientInterceptor } from './http-interceptor'
-import { environment } from '../environments/environment';
+import { HttpClientInterceptor } from '../interceptor/http-interceptor'
+import { environment } from '../../environments/environment';
 
 
 
@@ -19,6 +19,7 @@ export class AuthenticationService {
   ) { }
   login(username: string, password: string) {
 
+    // build body request
     let body: HttpParams = new HttpParams();
     body = body.append('grant_type', 'password');
     body = body.append('username', username);
@@ -26,8 +27,10 @@ export class AuthenticationService {
     return this.http.post(environment.reqUrl + '/token', body)
 
       .map(user => {
+
         // login successful if there's a token in the response
         if (user && user['access_token']) {
+
           // store user details and token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify(user));
         }
@@ -36,6 +39,7 @@ export class AuthenticationService {
       });
   }
   logout() {
+
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.router.navigate(['login']);

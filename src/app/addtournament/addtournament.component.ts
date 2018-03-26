@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { TournamentService } from '../services/tournament.service';
 import { LogService } from '../services/log.service';
-import { Tournament } from '../tournament';
+import { Tournament } from '../models/tournament';
 import { environment } from '../../environments/environment';
 
 

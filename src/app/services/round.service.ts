@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Round } from '../round';
+import { Round } from '../models/round';
 import { LogService } from './log.service';
 import { environment } from '../../environments/environment';
 

@@ -9,7 +9,7 @@ import { Location } from '@angular/common';
 
 import { LeagueService } from '../services/league.service';
 import { LogService } from '../services/log.service';
-import { League } from '../league';
+import { League } from '../models/league';
 import { environment } from '../../environments/environment';
 
 @Component({

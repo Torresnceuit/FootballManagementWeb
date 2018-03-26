@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { TeamService } from '../services/team.service';
 import { LogService } from '../services/log.service';
-import { Team } from '../team';
+import { Team } from '../models/team';
 import { environment } from '../../environments/environment';
 
 @Component({

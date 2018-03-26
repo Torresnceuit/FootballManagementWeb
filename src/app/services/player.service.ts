@@ -6,7 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Player } from '../player';
+import { Player } from '../models/player';
 import { LogService } from './log.service';
 import { environment } from '../../environments/environment';
 

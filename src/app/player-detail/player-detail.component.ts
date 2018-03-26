@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { Player } from '../player';
+import { Player } from '../models/player';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { PlayerService } from '../services/player.service';

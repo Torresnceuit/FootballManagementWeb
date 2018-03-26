@@ -7,7 +7,7 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { League } from '../league';
+import { League } from '../models/league';
 import { LogService } from './log.service';
 import { environment } from '../../environments/environment'
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { League } from '../league';
-import { Tournament } from '../tournament';
+import { League } from '../models/league';
+import { Tournament } from '../models/tournament';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { LeagueService } from '../services/league.service';

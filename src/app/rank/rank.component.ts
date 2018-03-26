@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { RankService } from '../services/rank.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Rank } from '../rank';
+import { Rank } from '../models/rank';
 
 @Component({
   selector: 'app-rank',

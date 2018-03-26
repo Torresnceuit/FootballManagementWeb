@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { LeagueService } from '../services/league.service';
 import { Router } from '@angular/router'
 
-import { User } from '../user';
-import { League } from '../league';
+import { User } from '../models/user';
+import { League } from '../models/league';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 

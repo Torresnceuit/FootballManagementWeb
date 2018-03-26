@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { MatchService } from '../services/match.service';
 import { RoundService } from '../services/round.service';
 import { RankService } from '../services/rank.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { Match } from '../match';
-import { Round } from '../round';
+import { Match } from '../models/match';
+import { Round } from '../models/round';
 import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({

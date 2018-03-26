@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { PlayerService } from '../services/player.service';
 import { LogService } from '../services/log.service';
-import { Player } from '../player';
+import { Player } from '../models/player';
 import { environment } from '../../environments/environment';
 
 

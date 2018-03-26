@@ -8,9 +8,9 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { HomeComponent } from './home/home.component';
-import { AuthenticationService} from'./authentication.service';
-import { UserService } from './user.service';
-import { AuthGuard } from './auth.guard';
+import { AuthenticationService} from './services/authentication.service';
+import { UserService } from './services/user.service';
+import { AuthGuard } from './guard/auth.guard';
 import { RegisterComponent } from './register/register.component';
 import { RegisterService } from './services/register.service';
 import { PlayerService } from './services/player.service';
@@ -37,7 +37,7 @@ import { MatchService } from './services/match.service';
 import { MatchComponent } from './match/match.component';
 import { RankComponent } from './rank/rank.component';
 import { RankService } from './services/rank.service';
-import { HttpClientInterceptor } from './http-client-interceptor';
+import { HttpClientInterceptor } from './interceptor/http-client-interceptor';
 import { ConnectionBackend, XHRBackend, RequestOptions, Http, HttpModule} from '@angular/http';
 
 

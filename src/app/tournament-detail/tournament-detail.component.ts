@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { Team } from '../team';
-import { Tournament } from '../tournament';
+import { Team } from '../models/team';
+import { Tournament } from '../models/tournament';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { TeamService } from '../services/team.service';
