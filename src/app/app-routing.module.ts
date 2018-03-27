@@ -4,20 +4,20 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guard/auth.guard';
 
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
-import { AddComponent } from './add/add.component';
-import { UploadComponent } from './upload/upload.component';
-import { PlayerDetailComponent } from './player-detail/player-detail.component';
-import { AddleagueComponent } from './addleague/addleague.component';
-import { LeagueDetailComponent } from './league-detail/league-detail.component';
-import { AddtournamentComponent } from './addtournament/addtournament.component';
-import { TournamentDetailComponent } from './tournament-detail/tournament-detail.component';
-import { TeamDetailComponent } from './team-detail/team-detail.component';
-import { AddteamComponent } from './addteam/addteam.component';
-import { RoundDetailComponent } from './round-detail/round-detail.component';
-import { RankComponent } from './rank/rank.component';
+import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { RegisterComponent } from './components/register/register.component';
+import { AddComponent } from './components/add/add.component';
+import { UploadComponent } from './components/upload/upload.component';
+import { PlayerDetailComponent } from './components/player-detail/player-detail.component';
+import { AddleagueComponent } from './components/addleague/addleague.component';
+import { LeagueDetailComponent } from './components/league-detail/league-detail.component';
+import { AddtournamentComponent } from './components/addtournament/addtournament.component';
+import { TournamentDetailComponent } from './components/tournament-detail/tournament-detail.component';
+import { TeamDetailComponent } from './components/team-detail/team-detail.component';
+import { AddteamComponent } from './components/addteam/addteam.component';
+import { RoundDetailComponent } from './components/round-detail/round-detail.component';
+import { RankComponent } from './components/rank/rank.component';
 
 
 const routes: Routes = [
