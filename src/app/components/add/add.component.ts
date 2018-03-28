@@ -11,8 +11,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PlayerService } from '../../services/player.service';
 import { LogService } from '../../services/log.service';
 import { Player } from '../../models/player';
+import { UploadManager } from '../../modules/upload-manager/uploadManager'
 import { environment } from '../../../environments/environment';
 
+// interface to get image path from response
+export interface imgPathResponse {
+  value: string;
+}
 
 @Component({
   selector: 'app-add',
@@ -20,20 +25,21 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./add.component.css']
 })
 
+
 export class AddComponent implements OnInit {
 
   // default image for player avatar
-  url: any = "http://placehold.it/180";
+  url: any = environment.defaultImgUrl;
 
   player: any = {};
   id: any;
 
   // Guid of image from server response
-  imgPathRes: string;
+  imgPathRes: imgPathResponse = { value: "" };
 
   // array stores all positions
   positions = ['CF', 'RF', 'LF', 'CM', 'CAM', 'CDM', 'LM', 'RM', 'CB', 'LB', 'RB', 'LWB', 'RWB', 'GK'];
-  
+
   // map the position with checked box
   positionsMap = {
     'CF': false,
@@ -66,7 +72,7 @@ export class AddComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
   // Go to the previous location
   goBack(): void {
     this.location.back();
@@ -79,16 +85,16 @@ export class AddComponent implements OnInit {
   }
 
   updatePositions() {
-    
+
     // renew the player position array
     this.positionsChecked = [];
     this.player.Positions = [];
     for (var x in this.positionsMap) {
       if (this.positionsMap[x]) {
-        
+
         // push checked positions in an array
         this.positionsChecked.push(x);
-        
+
         // push the checked position to player position array
         this.player.Positions.push(x);
       }
@@ -101,75 +107,49 @@ export class AddComponent implements OnInit {
   save(): void {
 
     // send avatar url to server: combination of reqUrl + Guid generated before
-    this.player.Avatar = environment.reqUrl + this.imgPathRes;
-   
+    this.player.Avatar = environment.reqUrl + this.imgPathRes.value;
+
     // get team Id from the route built
     this.id = this.route.snapshot.paramMap.get('Id');
     this.player.TeamId = this.id;
-   
+
     // update all the positions selected
     this.updatePositions();
 
     console.log(this.player.Positions);
     console.log(this.player);
-    
+
     // update player in database
     this.playerService.updatePlayer(this.player)
-      .subscribe(() => this.goBack());
+      .subscribe(/*() => this.goBack()*/);
   }
-  
+
   // readUrl and pass to the preview image
   readUrl(event: any) {
-    
-    // upload the image to database concurrently
-    this.upload(event);
+
+    // check files exist
     if (event.target.files && event.target.files[0]) {
+
+      // upload the image to database concurrently
+      this.upload(event.target.files);
+
       var reader = new FileReader();
-      
+
       // load url from target
       reader.onload = (event: any) => {
         this.url = event.target.result;
       }
-      
+
       // read image from url
       reader.readAsDataURL(event.target.files[0]);
     }
 
   }
 
-  upload(event) {
-    
-    // get file list
-    let fileList: FileList = event.target.files;
+  upload(fileList: FileList) {
 
-    if (fileList.length > 0) {
-      let file = fileList[0];
-      
-      // build body as form data
-      let formData: FormData = new FormData();
-      formData.append('uploadFile', file, file.name);
-      
-      // url to send request
-      let apiUrl1 = environment.reqUrl + "/api/players/Upload";
-
-
-      if (formData) console.log(file);
-      
-      // post data to server
-      this.http.post(apiUrl1, formData)
-        .catch(error => Observable.throw(error))
-        .subscribe(
-          data => {
-            
-            // get image Guid from response
-            this.imgPathRes = data;
-            console.log(this.imgPathRes);
-
-          },
-          error => console.log(error)
-        )
-    }
-
+    // upload files to server
+    UploadManager.upload(this.http, fileList, this.imgPathRes);
   }
 
   /* Log a PlayerService message with the LogService */

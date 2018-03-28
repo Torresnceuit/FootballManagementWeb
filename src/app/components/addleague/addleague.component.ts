@@ -11,6 +11,8 @@ import { LeagueService } from '../../services/league.service';
 import { LogService } from '../../services/log.service';
 import { League } from '../../models/league';
 import { environment } from '../../../environments/environment';
+import { UploadManager } from '../../modules/upload-manager/uploadManager';
+import { imgPathResponse } from '../add/add.component';
 
 @Component({
   selector: 'app-addleague',
@@ -19,10 +21,12 @@ import { environment } from '../../../environments/environment';
 })
 export class AddleagueComponent implements OnInit {
   // default url for player avatar
-  url: any = "http://placehold.it/180";
+  url: any = environment.defaultImgUrl;
   // this variable is used to get image id from server
-  imgPathRes: string;
+  imgPathRes: imgPathResponse = { value: "" };
+  // variable to store league instance
   league: any = {};
+  // constructor
   constructor(
     private element: ElementRef,
     private http: HttpClient,
@@ -41,10 +45,12 @@ export class AddleagueComponent implements OnInit {
 
   // Update league to database
   save() {
+    // build league logo url to store in database as string
     this.league.Logo = environment.reqUrl + this.imgPathRes;
 
-    console.log(this.league.Logo);
+    console.log(this.league.Logo)
     console.log(this.league);
+    // update and return to the previous location
     this.leagueService.updateLeague(this.league)
       .subscribe(() => this.goBack());
   }
@@ -54,8 +60,10 @@ export class AddleagueComponent implements OnInit {
     this.upload(event);
 
     if (event.target.files && event.target.files[0]) {
+      // upload file to server
+      this.upload(event.target.files);
       var reader = new FileReader();
-
+      // load url from event
       reader.onload = (event: any) => {
         this.url = event.target.result;
       }
@@ -66,34 +74,9 @@ export class AddleagueComponent implements OnInit {
 
   }
 
-  upload(event) {
-    let fileList: FileList = event.target.files;
-
-    if (fileList.length > 0) {
-      let file = fileList[0];
-
-      // build form data
-      let formData: FormData = new FormData();
-      formData.append('uploadFile', file, file.name);
-
-      // api url to send request
-      let apiUrl1 = environment.reqUrl + "/api/Upload/Image";
-
-
-      if (formData) console.log(file);
-      this.http.post(apiUrl1, formData)
-        .catch(error => Observable.throw(error))
-        .subscribe(
-          data => {
-            
-            // get image guid from server response
-            this.imgPathRes = data;
-            console.log(this.imgPathRes);
-
-          },
-          error => console.log(error)
-        )
-    }
+  upload(fileList: FileList) {
+    // upload files to server
+    UploadManager.upload(this.http, fileList, this.imgPathRes);
 
   }
 

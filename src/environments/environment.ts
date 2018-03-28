@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
-  reqUrl: "http://localhost:55903"
-  
+  reqUrl: "http://localhost:55903",
+  defaultImgUrl: "http://placehold.it/180"
+
 };

@@ -12,6 +12,8 @@ import { TournamentService } from '../../services/tournament.service';
 import { LogService } from '../../services/log.service';
 import { Tournament } from '../../models/tournament';
 import { environment } from '../../../environments/environment';
+import { imgPathResponse } from '../add/add.component';
+import { UploadManager } from '../../modules/upload-manager/uploadManager';
 
 
 @Component({
@@ -22,10 +24,10 @@ import { environment } from '../../../environments/environment';
 export class AddtournamentComponent implements OnInit {
 
   // default image url to load
-  url: any = "http://placehold.it/180";
+  url: any = environment.defaultImgUrl;
 
   // string variable to store guid
-  imgPathRes: string;
+  imgPathRes: imgPathResponse;
 
   tour: any = {};
   @Input() leagueId: string;
@@ -64,8 +66,10 @@ export class AddtournamentComponent implements OnInit {
   readUrl(event: any) {
     this.upload(event);
     if (event.target.files && event.target.files[0]) {
+      // upload files to database
+      this.upload(event.target.files);
       var reader = new FileReader();
-
+      // load url from selected file event
       reader.onload = (event: any) => {
         this.url = event.target.result;
       }
@@ -76,35 +80,9 @@ export class AddtournamentComponent implements OnInit {
 
   }
 
-  upload(event) {
-    let fileList: FileList = event.target.files;
+  upload(fileList: FileList) {
 
-    // check fileList
-    if (fileList.length > 0) {
-      let file = fileList[0];
-
-      // build form data
-      let formData: FormData = new FormData();
-      formData.append('uploadFile', file, file.name);
-
-      // api url to send request
-      let apiUrl1 = environment.reqUrl + "/api/Upload/Image";
-
-      if (formData) console.log(file);
-      this.http.post(apiUrl1, formData)
-        .catch(error => Observable.throw(error))
-        .subscribe(
-          data => {
-
-            // get image guid from server response
-            this.imgPathRes = data;
-            console.log(this.imgPathRes);
-
-          },
-          error => console.log(error)
-        )
-    }
-
-
+    // upload files to server
+    UploadManager.upload(this.http, fileList, this.imgPathRes);
   }
 }

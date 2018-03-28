@@ -41,20 +41,21 @@ export class PlayerService {
   }
   /** POST: update the player on the server */
   updatePlayer(player: Player): Observable<any> {
-    return this.http.post<Player>(environment.reqUrl + "/api/players/update/", player).pipe(
-      tap(_ => this.log(`updated player id=${player.Id}`)),
-      catchError(this.handleError<any>('updatePlayer'))
-    );
+    return this.http.post<Player>(environment.reqUrl + "/api/players/update/", player)
+      .pipe(
+        tap(_ => this.log(`updated player id=${player.Id}`)),
+        catchError(this.handleError<any>('updatePlayer'))
+      );
   }
 
   /** DELETE: delete the player from the server */
-  deletePlayer (player: Player | number): Observable<Player> {
+  deletePlayer(player: Player | number): Observable<Player> {
     const id = typeof player === 'number' ? player : player.Id;
-    const url = `${environment.reqUrl+ "/api/players/delete"}/${id}`;
+    const url = `${environment.reqUrl + "/api/players/delete"}/${id}`;
 
     return this.http.delete<Player>(url)
-      .map((res: any)=> res);
-    
+      .map((res: any) => res);
+
   }
 
   /** Log a PlayerService message with the LogService */

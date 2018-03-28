@@ -12,6 +12,8 @@ import { TeamService } from '../../services/team.service';
 import { LogService } from '../../services/log.service';
 import { Team } from '../../models/team';
 import { environment } from '../../../environments/environment';
+import { UploadManager } from '../../modules/upload-manager/uploadManager';
+import { imgPathResponse } from '../add/add.component';
 
 @Component({
   selector: 'app-addteam',
@@ -21,10 +23,10 @@ import { environment } from '../../../environments/environment';
 export class AddteamComponent implements OnInit {
 
   // default image url to load 
-  url: any = "http://placehold.it/180";
+  url: any = environment.defaultImgUrl;
 
   // string variable to store guid
-  imgPathRes: string;
+  imgPathRes: imgPathResponse;
 
   team: any = {};
   tourId: string;
@@ -47,7 +49,7 @@ export class AddteamComponent implements OnInit {
 
   // Update tournament to database
   save() {
-  
+
     this.team.Logo = environment.reqUrl + this.imgPathRes;
     this.tourId = this.route.snapshot.paramMap.get('Id');
     this.team.TourId = this.tourId;
@@ -62,8 +64,9 @@ export class AddteamComponent implements OnInit {
   readUrl(event: any) {
     this.upload(event);
     if (event.target.files && event.target.files[0]) {
+      this.upload(event.target.files);
       var reader = new FileReader();
-
+      // load url from file selected event
       reader.onload = (event: any) => {
         this.url = event.target.result;
       }
@@ -74,36 +77,10 @@ export class AddteamComponent implements OnInit {
 
   }
 
-  upload(event) {
-    let fileList: FileList = event.target.files;
-    
-    // check length of fileList
-    if (fileList.length > 0) {
-      let file = fileList[0];
+  upload(fileList: FileList) {
 
-      // build form data
-      let formData: FormData = new FormData();
-      formData.append('uploadFile', file, file.name);
-
-      // api url to send request to server
-      let apiUrl1 = environment.reqUrl + "/api/Upload/Image";
-
-      if (formData) console.log(file);
-      this.http.post(apiUrl1, formData)
-        .catch(error => Observable.throw(error))
-        .subscribe(
-          data => {
-            
-            // get image id from server
-            this.imgPathRes = data;
-            console.log(this.imgPathRes);
-
-          },
-          error => console.log(error)
-        )
-    }
-
-
+    // upload files to server
+    UploadManager.upload(this.http, fileList, this.imgPathRes);
   }
 
 }
