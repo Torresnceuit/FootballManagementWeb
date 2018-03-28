@@ -121,7 +121,7 @@ export class AddComponent implements OnInit {
 
     // update player in database
     this.playerService.updatePlayer(this.player)
-      .subscribe(/*() => this.goBack()*/);
+      .subscribe(() => this.goBack());
   }
 
   // readUrl and pass to the preview image
